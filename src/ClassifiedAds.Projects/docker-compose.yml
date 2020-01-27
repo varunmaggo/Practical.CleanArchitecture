@@ -50,6 +50,7 @@ services:
           OpenIdConnect__Authority: "http://host.docker.internal:9000"
           OpenIdConnect__RequireHttpsMetadata: "false"
           ResourceServer__Endpoint: "http://webapi"
+          NotificationServer__Endpoint: "http://host.docker.internal:9001"
           CurrentUrl: "http://localhost:80"
           Storage__Provider: "Local"
           Storage__Local__Path: "/files"
