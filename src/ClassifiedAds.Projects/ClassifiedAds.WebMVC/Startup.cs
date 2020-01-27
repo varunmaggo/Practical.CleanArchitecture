@@ -297,7 +297,7 @@ namespace ClassifiedAds.WebMVC
                     HostName = AppSettings.MessageBroker.RabbitMQ.HostName,
                     UserName = AppSettings.MessageBroker.RabbitMQ.UserName,
                     Password = AppSettings.MessageBroker.RabbitMQ.Password,
-                    QueueName = "classifiedadds_fileuploaded",
+                    QueueName = AppSettings.MessageBroker.RabbitMQ.QueueName_FileUploaded,
                 });
 
                 fileDeletedMessageQueueReceiver = new RabbitMQReceiver<FileDeletedEvent>(new RabbitMQReceiverOptions
@@ -305,28 +305,28 @@ namespace ClassifiedAds.WebMVC
                     HostName = AppSettings.MessageBroker.RabbitMQ.HostName,
                     UserName = AppSettings.MessageBroker.RabbitMQ.UserName,
                     Password = AppSettings.MessageBroker.RabbitMQ.Password,
-                    QueueName = "classifiedadds_filedeleted",
+                    QueueName = AppSettings.MessageBroker.RabbitMQ.QueueName_FileDeleted,
                 });
             }
 
             if (AppSettings.MessageBroker.UsedKafka())
             {
                 fileUploadedMessageQueueReceiver = new KafkaReceiver<FileUploadedEvent>(
-                AppSettings.MessageBroker.Kafka.BootstrapServers,
-                AppSettings.MessageBroker.Kafka.Topic_FileUploaded,
-                "classified");
+                    AppSettings.MessageBroker.Kafka.BootstrapServers,
+                    AppSettings.MessageBroker.Kafka.Topic_FileUploaded,
+                    AppSettings.MessageBroker.Kafka.GroupId);
 
                 fileDeletedMessageQueueReceiver = new KafkaReceiver<FileDeletedEvent>(
                     AppSettings.MessageBroker.Kafka.BootstrapServers,
                     AppSettings.MessageBroker.Kafka.Topic_FileDeleted,
-                    "classified");
+                    AppSettings.MessageBroker.Kafka.GroupId);
             }
 
             if (AppSettings.MessageBroker.UsedAzureQueue())
             {
                 fileUploadedMessageQueueReceiver = new AzureQueueReceiver<FileUploadedEvent>(
-                AppSettings.MessageBroker.AzureQueue.ConnectionString,
-                AppSettings.MessageBroker.AzureQueue.QueueName_FileUploaded);
+                    AppSettings.MessageBroker.AzureQueue.ConnectionString,
+                    AppSettings.MessageBroker.AzureQueue.QueueName_FileUploaded);
 
                 fileDeletedMessageQueueReceiver = new AzureQueueReceiver<FileDeletedEvent>(
                     AppSettings.MessageBroker.AzureQueue.ConnectionString,
@@ -336,8 +336,8 @@ namespace ClassifiedAds.WebMVC
             if (AppSettings.MessageBroker.UsedAzureServiceBus())
             {
                 fileUploadedMessageQueueReceiver = new AzureServiceBusReceiver<FileUploadedEvent>(
-                AppSettings.MessageBroker.AzureServiceBus.ConnectionString,
-                AppSettings.MessageBroker.AzureServiceBus.QueueName_FileUploaded);
+                    AppSettings.MessageBroker.AzureServiceBus.ConnectionString,
+                    AppSettings.MessageBroker.AzureServiceBus.QueueName_FileUploaded);
 
                 fileDeletedMessageQueueReceiver = new AzureServiceBusReceiver<FileDeletedEvent>(
                     AppSettings.MessageBroker.AzureServiceBus.ConnectionString,
@@ -345,9 +345,9 @@ namespace ClassifiedAds.WebMVC
             }
 
             var connection = new HubConnectionBuilder()
-            .WithUrl($"{AppSettings.NotificationServer.Endpoint}/SimulatedLongRunningTaskHub")
-            .AddMessagePackProtocol()
-            .Build();
+                .WithUrl($"{AppSettings.NotificationServer.Endpoint}/SimulatedLongRunningTaskHub")
+                .AddMessagePackProtocol()
+                .Build();
 
             fileUploadedMessageQueueReceiver?.Receive(data =>
             {
