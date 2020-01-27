@@ -51,6 +51,7 @@ namespace ClassifiedAds.NotificationServer
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<HealthCheckHub>("/HealthCheckHub");
                 endpoints.MapHub<SimulatedLongRunningTaskHub>("/SimulatedLongRunningTaskHub");
             });
         }

@@ -150,6 +150,9 @@ namespace ClassifiedAds.WebMVC
                     failureStatus: HealthStatus.Degraded)
                 .AddUrlGroup(new Uri(appSettings.ResourceServer.Endpoint),
                     name: "Resource (Web API) Server",
+                    failureStatus: HealthStatus.Degraded)
+                .AddSignalRHub(appSettings.NotificationServer.Endpoint + "/HealthCheckHub",
+                    name: "Notification (SignalR) Server",
                     failureStatus: HealthStatus.Degraded);
 
             services.AddHealthChecksUI(setupSettings: setup =>
