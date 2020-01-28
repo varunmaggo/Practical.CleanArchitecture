@@ -152,7 +152,9 @@
       "Password": "guest",
       "ExchangeName": "amq.direct",
       "RoutingKey_FileUploaded": "classifiedadds_fileuploaded",
-      "RoutingKey_FileDeleted": "classifiedadds_filedeleted"
+      "RoutingKey_FileDeleted": "classifiedadds_filedeleted",
+      "QueueName_FileUploaded": "classifiedadds_fileuploaded",
+      "QueueName_FileDeleted": "classifiedadds_filedeleted"
     },
   }
   ```
@@ -195,6 +197,15 @@
 
 ## Set Startup Projects
 ![alt text](/docs/imgs/startup-projects.png)
+
+## Run or Debug the Solution
+- Web MVC Home Page: https://localhost:44364/
+
+![alt text](/docs/imgs/web-mvc-home-page.png)
+
+- Navigate to Health Checks UI https://localhost:44364/healthchecks-ui#/healthchecks and make sure everything is green.
+
+![alt text](/docs/imgs/health-checks-ui.png)
 
 ## How to Login on Identity Server:
 - Option 1: Use default created account:
