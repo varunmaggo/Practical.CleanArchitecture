@@ -80,6 +80,7 @@ namespace ClassifiedAds.WebMVC
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.Secure = CookieSecurePolicy.None;
             });
 
             services.AddControllersWithViews(setupAction =>
@@ -301,6 +302,8 @@ namespace ClassifiedAds.WebMVC
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<CustomMiddleware>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -318,6 +321,7 @@ namespace ClassifiedAds.WebMVC
             app.UseIPFiltering();
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
