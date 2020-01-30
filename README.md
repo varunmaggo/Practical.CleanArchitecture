@@ -207,13 +207,13 @@
 
   ![alt text](/docs/imgs/health-checks-ui.png)
 
-## How to Login on Identity Server:
-- Option 1: Use default created account:
-  + User Name: phong@gmail.com
-  + Password: v*7Un8b4rcN@<-RN
-- Option 2: Register new account at https://localhost:44367/Account/Register
+- Login on Identity Server:
+  + Option 1: Use default created account:
+    + User Name: phong@gmail.com
+    + Password: v*7Un8b4rcN@<-RN
+  + Option 2: Register new account at https://localhost:44367/Account/Register
 
-## How to Run on Containers:
+## How to Run on Docker Containers:
 - Add Migrations if you haven't done on previous steps:
   + Install **dotnet-ef** cli:
     ```
