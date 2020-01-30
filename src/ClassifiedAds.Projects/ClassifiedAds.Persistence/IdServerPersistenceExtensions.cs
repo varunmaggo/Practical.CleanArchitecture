@@ -73,7 +73,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         PostLogoutRedirectUris =
                         {
                             "https://localhost:44364/signout-callback-oidc",
-                            "http://host.docker.internal:9003/signout-callback",
+                            "http://host.docker.internal:9003/signout-callback-oidc",
                         },
                         AllowedScopes =
                         {
