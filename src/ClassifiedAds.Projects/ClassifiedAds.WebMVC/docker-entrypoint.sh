@@ -2,14 +2,14 @@
 while ! nc -z migrator 80;
 do
     echo migrator is not ready, sleeping;
-    sleep 1;
+    sleep 5;
 done;
 echo migrator is ready!;
 
 while ! nc -z rabbitmq 15672;
 do
     echo rabbitmq is not ready, sleeping;
-    sleep 1;
+    sleep 5;
 done;
 echo rabbitmq is ready!;
 

@@ -35,6 +35,7 @@ using Microsoft.Extensions.Options;
 using Serilog;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace ClassifiedAds.WebMVC
 {
@@ -425,6 +426,8 @@ namespace ClassifiedAds.WebMVC
 
             fileUploadedMessageQueueReceiver?.Receive(data =>
             {
+                Thread.Sleep(2000); // Sleep few seconds to wait for the fontend to reload
+
                 string message = data.FileEntry.Id.ToString();
 
                 connection.StartAsync().GetAwaiter().GetResult();
@@ -436,6 +439,8 @@ namespace ClassifiedAds.WebMVC
 
             fileDeletedMessageQueueReceiver?.Receive(data =>
             {
+                Thread.Sleep(2000); // Sleep few seconds to wait for the fontend to reload
+
                 string message = data.FileEntry.Id.ToString();
 
                 connection.StartAsync().GetAwaiter().GetResult();

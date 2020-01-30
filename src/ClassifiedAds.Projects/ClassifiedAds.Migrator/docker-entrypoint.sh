@@ -2,7 +2,7 @@
 while ! nc -z db 1433;
 do
     echo db is not ready, sleeping;
-    sleep 1;
+    sleep 5;
 done;
 echo Connected!;
 cd /ClassifiedAds.Projects && dotnet ClassifiedAds.Migrator.dll
