@@ -201,11 +201,11 @@
 ## Run or Debug the Solution
 - Web MVC Home Page: https://localhost:44364/
 
-![alt text](/docs/imgs/web-mvc-home-page.png)
+  ![alt text](/docs/imgs/web-mvc-home-page.png)
 
 - Navigate to Health Checks UI https://localhost:44364/healthchecks-ui#/healthchecks and make sure everything is green.
 
-![alt text](/docs/imgs/health-checks-ui.png)
+  ![alt text](/docs/imgs/health-checks-ui.png)
 
 ## How to Login on Identity Server:
 - Option 1: Use default created account:
@@ -232,11 +232,11 @@
   ```
 - Open Web MVC Home Page at: http://host.docker.internal:9003
 
-![alt text](/docs/imgs/web-mvc-home-page.png)
+  ![alt text](/docs/imgs/web-mvc-home-page.png)
 
 - Navigate to Health Checks UI http://host.docker.internal:9003/healthchecks-ui#/healthchecks and make sure everything is green.
 
-![alt text](/docs/imgs/health-checks-ui-container.png)
+  ![alt text](/docs/imgs/health-checks-ui-container.png)
 
 - Login on Identity Server:
   + Use default created account: phong@gmail.com / v*7Un8b4rcN@<-RN
