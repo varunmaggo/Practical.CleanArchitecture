@@ -1,5 +1,47 @@
 version: "3.6"
 services:
+    db:
+        image: "mcr.microsoft.com/mssql/server:2017-latest"
+        ports:
+            - "1434:1433"
+        environment:
+            SA_PASSWORD: "sqladmin123!@#"
+            MSSQL_PID: "Developer"
+            ACCEPT_EULA: "Y"
+    rabbitmq:
+        image: "rabbitmq:3-management"
+        ports:
+          - "5672:5672"
+          - "15672:15672"
+    zookeeper:
+        image: confluentinc/cp-zookeeper:latest
+        environment:
+          ZOOKEEPER_CLIENT_PORT: 2181
+          ZOOKEEPER_TICK_TIME: 2000
+    kafka:
+        image: confluentinc/cp-kafka:latest
+        depends_on:
+          - zookeeper
+        ports:
+          - 9092:9092
+        environment:
+          KAFKA_BROKER_ID: 1
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://host.docker.internal:9092
+          KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+          KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    migrator:
+        build:
+          context: .
+          dockerfile: ./ClassifiedAds.Migrator/Dockerfile
+        volumes:
+            - D:\\ClassifiedAds.Projects\\Logs\\Migrator:/ClassifiedAds.Projects/logs
+        depends_on:
+          - db
+        environment:
+          ASPNETCORE_ENVIRONMENT: "Development"
+          ConnectionStrings__ClassifiedAds: "Server=db;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
     identityserver:
         build:
           context: .
@@ -8,9 +50,12 @@ services:
             - "9000:80"
         volumes:
             - D:\\ClassifiedAds.Projects\\Logs\\IdentityServer:/ClassifiedAds.Projects/logs
+        depends_on:
+          - db
+          - migrator
         environment:
           ASPNETCORE_ENVIRONMENT: "Development"
-          ConnectionStrings__ClassifiedAds: "Server=host.docker.internal;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
+          ConnectionStrings__ClassifiedAds: "Server=db;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
     notificationserver:
         build:
           context: .
@@ -19,9 +64,12 @@ services:
             - "9001:80"
         volumes:
             - D:\\ClassifiedAds.Projects\\Logs\\NotificationServer:/ClassifiedAds.Projects/logs
+        depends_on:
+          - db
+          - migrator
         environment:
           ASPNETCORE_ENVIRONMENT: "Development"
-          ConnectionStrings__ClassifiedAds: "Server=host.docker.internal;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
+          ConnectionStrings__ClassifiedAds: "Server=db;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
     webapi:
         build:
           context: .
@@ -30,9 +78,12 @@ services:
             - "9002:80"
         volumes:
             - D:\\ClassifiedAds.Projects\\Logs\\WebAPI:/ClassifiedAds.Projects/logs
+        depends_on:
+          - db
+          - migrator
         environment:
           ASPNETCORE_ENVIRONMENT: "Development"
-          ConnectionStrings__ClassifiedAds: "Server=host.docker.internal;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
+          ConnectionStrings__ClassifiedAds: "Server=db;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
           IdentityServerAuthentication__Authority: "http://host.docker.internal:9000"
           IdentityServerAuthentication__RequireHttpsMetadata: "false"
     webmvc:
@@ -44,9 +95,17 @@ services:
         volumes:
             - D:\\ClassifiedAds.Projects\\Files:/files
             - D:\\ClassifiedAds.Projects\\Logs\\WebMVC:/ClassifiedAds.Projects/logs
+        depends_on:
+          - db
+          - migrator
+          - rabbitmq
+          - kafka
+          - identityserver
+          - webapi
+          - notificationserver
         environment:
           ASPNETCORE_ENVIRONMENT: "Development"
-          ConnectionStrings__ClassifiedAds: "Server=host.docker.internal;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
+          ConnectionStrings__ClassifiedAds: "Server=db;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
           OpenIdConnect__Authority: "http://host.docker.internal:9000"
           OpenIdConnect__RequireHttpsMetadata: "false"
           ResourceServer__Endpoint: "http://host.docker.internal:9002"
@@ -62,7 +121,7 @@ services:
           Storage__Amazon__BucketName: "classifiedadds"
           Storage__Amazon__RegionEndpoint: "ap-southeast-1"
           MessageBroker__Provider: "RabbitMQ"
-          MessageBroker__RabbitMQ__HostName: "host.docker.internal"
+          MessageBroker__RabbitMQ__HostName: "rabbitmq"
           MessageBroker__RabbitMQ__UserName: "guest"
           MessageBroker__RabbitMQ__Password: "guest"
           MessageBroker__RabbitMQ__ExchangeName: "amq.direct"
@@ -70,7 +129,7 @@ services:
           MessageBroker__RabbitMQ__RoutingKey_FileDeleted: "classifiedadds_filedeleted"
           MessageBroker__RabbitMQ__QueueName_FileUploaded: "classifiedadds_fileuploaded"
           MessageBroker__RabbitMQ__QueueName_FileDeleted: "classifiedadds_filedeleted"
-          MessageBroker__Kafka__BootstrapServers: "host.docker.internal:9092"
+          MessageBroker__Kafka__BootstrapServers: "kafka:9092"
           MessageBroker__Kafka__Topic_FileUploaded: "classifiedadds_fileuploaded"
           MessageBroker__Kafka__Topic_FileDeleted: "classifiedadds_filedeleted"
           MessageBroker__Kafka__GroupId: "classified"
@@ -88,9 +147,12 @@ services:
             - "9004:80"
         volumes:
             - D:\\ClassifiedAds.Projects\\Logs\\BackgroundServices:/ClassifiedAds.Projects/logs
+        depends_on:
+          - db
+          - migrator
         environment:
           ASPNETCORE_ENVIRONMENT: "Development"
-          ConnectionStrings__ClassifiedAds: "Server=host.docker.internal;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
+          ConnectionStrings__ClassifiedAds: "Server=db;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
           NotificationServer__Endpoint: "http://notificationserver"
     grpc:
         build:
@@ -100,10 +162,13 @@ services:
             - "9005:443"
         volumes:
             - D:\\ClassifiedAds.Projects\\Logs\\GRPC:/ClassifiedAds.Projects/logs
+        depends_on:
+          - db
+          - migrator
         environment:
           ASPNETCORE_ENVIRONMENT: "Development"
           ASPNETCORE_URLS: "https://+"
-          ConnectionStrings__ClassifiedAds: "Server=host.docker.internal;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
+          ConnectionStrings__ClassifiedAds: "Server=db;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
     graphql:
         build:
           context: .
@@ -112,9 +177,12 @@ services:
             - "9006:80"
         volumes:
             - D:\\ClassifiedAds.Projects\\Logs\\GraphQL:/ClassifiedAds.Projects/logs
+        depends_on:
+          - db
+          - migrator
         environment:
           ASPNETCORE_ENVIRONMENT: "Development"
-          ConnectionStrings__ClassifiedAds: "Server=host.docker.internal;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
+          ConnectionStrings__ClassifiedAds: "Server=db;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
           GrpcService__Endpoint: "https://grpc"
     ocelot:
         build:
@@ -124,6 +192,9 @@ services:
             - "9007:80"
         volumes:
             - D:\\ClassifiedAds.Projects\\Logs\\Ocelot:/ClassifiedAds.Projects/logs
+        depends_on:
+          - db
+          - migrator
         environment:
           ASPNETCORE_ENVIRONMENT: "Docker"
-          ConnectionStrings__ClassifiedAds: "Server=host.docker.internal;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
+          ConnectionStrings__ClassifiedAds: "Server=db;Database=ClassifiedAds;User Id=sa;Password=sqladmin123!@#;MultipleActiveResultSets=true"
