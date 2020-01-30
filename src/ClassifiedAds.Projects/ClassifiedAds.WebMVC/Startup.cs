@@ -426,7 +426,7 @@ namespace ClassifiedAds.WebMVC
 
             fileUploadedMessageQueueReceiver?.Receive(data =>
             {
-                Thread.Sleep(2000); // Sleep few seconds to wait for the fontend to reload
+                Thread.Sleep(2000); // simulate long running task
 
                 string message = data.FileEntry.Id.ToString();
 
@@ -439,7 +439,7 @@ namespace ClassifiedAds.WebMVC
 
             fileDeletedMessageQueueReceiver?.Receive(data =>
             {
-                Thread.Sleep(2000); // Sleep few seconds to wait for the fontend to reload
+                Thread.Sleep(2000); // simulate long running task
 
                 string message = data.FileEntry.Id.ToString();
 

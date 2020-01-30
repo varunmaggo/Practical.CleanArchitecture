@@ -4,7 +4,11 @@ do
     echo db is not ready, sleeping;
     sleep 5;
 done;
-echo Connected!;
+echo db is ready!;
+
+echo sleep more 30s before starting!;
+sleep 30;
+
 cd /ClassifiedAds.Projects && dotnet ClassifiedAds.Migrator.dll
 
 # Keep the line ending
