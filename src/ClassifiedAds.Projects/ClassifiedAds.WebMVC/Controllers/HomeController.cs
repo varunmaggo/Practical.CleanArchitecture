@@ -137,8 +137,8 @@ namespace ClassifiedAds.WebMVC.Controllers
             var response = await httpClient.RequestRefreshTokenAsync(new RefreshTokenRequest
             {
                 Address = metaDataResponse.TokenEndpoint,
-                ClientId = "ClassifiedAds.WebMVC",
-                ClientSecret = "secret",
+                ClientId = _appSettings.OpenIdConnect.ClientId,
+                ClientSecret = _appSettings.OpenIdConnect.ClientSecret,
                 RefreshToken = refreshToken,
             });
 
