@@ -2,7 +2,7 @@
 
 namespace ClassifiedAds.WebMVC.Filters
 {
-    public class DashboardAuthorizationFilter : IDashboardAuthorizationFilter
+    public class HangfireDashboardAuthorizationFilter : IDashboardAuthorizationFilter
     {
         public bool Authorize(DashboardContext context)
         {

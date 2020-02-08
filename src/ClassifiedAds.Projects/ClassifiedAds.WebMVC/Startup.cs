@@ -160,6 +160,9 @@ namespace ClassifiedAds.WebMVC
                     failureStatus: HealthStatus.Degraded)
                 .AddSignalRHub(appSettings.NotificationServer.Endpoint + "/HealthCheckHub",
                     name: "Notification (SignalR) Server",
+                    failureStatus: HealthStatus.Degraded)
+                .AddUrlGroup(new Uri(appSettings.BackgroundServer.Endpoint),
+                    name: "Background Services Server",
                     failureStatus: HealthStatus.Degraded);
 
             services.AddHealthChecksUI(setupSettings: setup =>
@@ -357,7 +360,8 @@ namespace ClassifiedAds.WebMVC
 
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
-                Authorization = new[] { new DashboardAuthorizationFilter() },
+                Authorization = new[] { new HangfireDashboardAuthorizationFilter() },
+                IgnoreAntiforgeryToken = true,
             });
 
             app.UseEndpoints(endpoints =>
