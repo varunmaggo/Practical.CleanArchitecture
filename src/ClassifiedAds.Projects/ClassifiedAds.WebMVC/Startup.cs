@@ -18,8 +18,11 @@ using ClassifiedAds.WebMVC.ConfigurationOptions;
 using ClassifiedAds.WebMVC.Filters;
 using ClassifiedAds.WebMVC.HttpHandlers;
 using ClassifiedAds.WebMVC.Middleware;
+using Hangfire;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -99,16 +102,16 @@ namespace ClassifiedAds.WebMVC
 
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = "Cookies";
-                options.DefaultChallengeScheme = "oidc";
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddCookie("Cookies", options =>
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
             {
                 options.AccessDeniedPath = "/Authorization/AccessDenied";
             })
-            .AddOpenIdConnect("oidc", options =>
+            .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
-                options.SignInScheme = "Cookies";
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.Authority = appSettings.OpenIdConnect.Authority;
                 options.ClientId = appSettings.OpenIdConnect.ClientId;
                 options.ClientSecret = appSettings.OpenIdConnect.ClientSecret;
@@ -162,6 +165,11 @@ namespace ClassifiedAds.WebMVC
             services.AddHealthChecksUI(setupSettings: setup =>
             {
                 setup.AddHealthCheckEndpoint("Basic Health Check", $"{appSettings.CurrentUrl}/healthcheck");
+            });
+
+            services.AddHangfire(x =>
+            {
+                x.UseSqlServerStorage(appSettings.ConnectionStrings.ClassifiedAds);
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -344,7 +352,13 @@ namespace ClassifiedAds.WebMVC
                     [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable,
                 },
             });
+
             app.UseHealthChecksUI(); // /healthchecks-ui#/healthchecks
+
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new DashboardAuthorizationFilter() },
+            });
 
             app.UseEndpoints(endpoints =>
             {
