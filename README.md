@@ -213,6 +213,10 @@
     + Password: v*7Un8b4rcN@<-RN
   + Option 2: Register new account at https://localhost:44367/Account/Register
 
+- Open Blazor Home Page at: https://localhost:44331
+
+  ![alt text](/docs/imgs/blazor-home-page.png)
+
 ## How to Run on Docker Containers:
 - Add Migrations if you haven't done on previous steps:
   + Install **dotnet-ef** cli:
@@ -241,7 +245,11 @@
 - Login on Identity Server:
   + Use default created account: phong@gmail.com / v*7Un8b4rcN@<-RN
   + Register new account at http://host.docker.internal:9000/Account/Register
+  
+- Open Blazor Home Page at: http://host.docker.internal:9008
 
+  ![alt text](/docs/imgs/blazor-home-page.png)
+  
 ## Application URLs:
 | Project  | Launch URL | Docker Container URL| Docker Container URL|
 | -------- | ---------- | ------------------- | ------------------- |
