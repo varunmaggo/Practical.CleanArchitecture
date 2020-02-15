@@ -246,6 +246,7 @@
 | Project  | Launch URL | Docker Container URL| Docker Container URL|
 | -------- | ---------- | ------------------- | ------------------- |
 | BackgroundServices | https://localhost:44318 | http://localhost:9004 | http://host.docker.internal:9004 |
+| BlazorServerSide | https://localhost:44331 | http://localhost:9008 | http://host.docker.internal:9008 |
 | GRPC | https://localhost:5001 | https://localhost:9005 | https://host.docker.internal:9005 |
 | IdentityServer | https://localhost:44367 | http://localhost:9000 | http://host.docker.internal:9000 |
 | NotificationServer | https://localhost:44390 | http://localhost:9001 | http://host.docker.internal:9001 |

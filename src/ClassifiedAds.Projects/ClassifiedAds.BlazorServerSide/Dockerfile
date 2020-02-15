@@ -28,11 +28,11 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-RUN dotnet publish ./ClassifiedAds.NotificationServer/ClassifiedAds.NotificationServer.csproj -c Release -o out
+RUN dotnet publish ./ClassifiedAds.BlazorServerSide/ClassifiedAds.BlazorServerSide.csproj -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /ClassifiedAds.Projects
 COPY --from=build-env /ClassifiedAds.Projects/out .
 
-ENTRYPOINT ["dotnet", "ClassifiedAds.NotificationServer.dll"]
+ENTRYPOINT ["dotnet", "ClassifiedAds.BlazorServerSide.dll"]
