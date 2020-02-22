@@ -26,15 +26,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 AddHandler(services, type);
             }
 
-            var types = Assembly.GetExecutingAssembly().GetTypes()
-                    .Where(x => x.GetInterfaces().Any(y => y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>)))
-                    .ToList();
-
-            foreach (Type type in types)
-            {
-                services.AddTransient(type);
-            }
-
             services.AddEventHandlers();
 
             return services;
@@ -154,7 +145,9 @@ namespace Microsoft.Extensions.DependencyInjection
         private static bool IsHandlerInterface(Type type)
         {
             if (!type.IsGenericType)
+            {
                 return false;
+            }
 
             Type typeDefinition = type.GetGenericTypeDefinition();
 

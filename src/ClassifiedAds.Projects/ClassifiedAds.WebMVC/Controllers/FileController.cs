@@ -13,10 +13,10 @@ namespace ClassifiedAds.WebMVC.Controllers
 {
     public class FileController : Controller
     {
-        private readonly IGenericService<FileEntry> _fileEntryService;
+        private readonly ICrudService<FileEntry> _fileEntryService;
         private readonly IFileStorageManager _fileManager;
 
-        public FileController(IGenericService<FileEntry> fileEntryService, IFileStorageManager fileManager)
+        public FileController(ICrudService<FileEntry> fileEntryService, IFileStorageManager fileManager)
         {
             _fileEntryService = fileEntryService;
             _fileManager = fileManager;
