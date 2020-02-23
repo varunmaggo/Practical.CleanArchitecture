@@ -3,8 +3,8 @@ WORKDIR /ClassifiedAds.Projects
 
 # Copy csproj and restore as distinct layers
 COPY ./ClassifiedAds.ApplicationServices/*.csproj ./ClassifiedAds.ApplicationServices/
-COPY ./ClassifiedAds.BackgroundServices/*.csproj ./ClassifiedAds.BackgroundServices/
-COPY ./ClassifiedAds.BlazorServerSide/*.csproj ./ClassifiedAds.BlazorServerSide/
+COPY ./ClassifiedAds.BackgroundServer/*.csproj ./ClassifiedAds.BackgroundServer/
+COPY ./ClassifiedAds.Blazor/*.csproj ./ClassifiedAds.Blazor/
 COPY ./ClassifiedAds.CrossCuttingConcerns/*.csproj ./ClassifiedAds.CrossCuttingConcerns/
 COPY ./ClassifiedAds.DomainServices/*.csproj ./ClassifiedAds.DomainServices/
 COPY ./ClassifiedAds.DomainServices.UnitTests/*.csproj ./ClassifiedAds.DomainServices.UnitTests/

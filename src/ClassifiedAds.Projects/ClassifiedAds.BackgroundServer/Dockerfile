@@ -28,11 +28,15 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-RUN dotnet publish ./ClassifiedAds.Ocelot/ClassifiedAds.Ocelot.csproj -c Release -o out
+RUN dotnet publish ./ClassifiedAds.BackgroundServer/ClassifiedAds.BackgroundServer.csproj -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /ClassifiedAds.Projects
 COPY --from=build-env /ClassifiedAds.Projects/out .
 
-ENTRYPOINT ["dotnet", "ClassifiedAds.Ocelot.dll"]
+RUN apt-get update && apt-get install -y netcat
+
+RUN chmod 755 ./docker-entrypoint.sh
+
+ENTRYPOINT ["./docker-entrypoint.sh"]
