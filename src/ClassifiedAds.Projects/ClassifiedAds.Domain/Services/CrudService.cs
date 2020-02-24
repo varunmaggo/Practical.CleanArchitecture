@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ClassifiedAds.Domain.Entities;
+using ClassifiedAds.Domain.Events;
+using ClassifiedAds.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ClassifiedAds.Domain.DomainEvents;
-using ClassifiedAds.Domain.Entities;
-using ClassifiedAds.Domain.Repositories;
 
 namespace ClassifiedAds.Domain.Services
 {
@@ -23,13 +23,13 @@ namespace ClassifiedAds.Domain.Services
         {
             _repository.Add(entity);
             _unitOfWork.SaveChanges();
-            DomainEvents.DomainEvents.Dispatch(new EntityCreatedEvent<T>(entity));
+            DomainEvents.Dispatch(new EntityCreatedEvent<T>(entity));
         }
 
         public virtual void Update(T entity)
         {
             _unitOfWork.SaveChanges();
-            DomainEvents.DomainEvents.Dispatch(new EntityUpdatedEvent<T>(entity));
+            DomainEvents.Dispatch(new EntityUpdatedEvent<T>(entity));
         }
 
         public virtual IList<T> Get()
@@ -46,7 +46,7 @@ namespace ClassifiedAds.Domain.Services
         {
             _repository.Delete(entity);
             _unitOfWork.SaveChanges();
-            DomainEvents.DomainEvents.Dispatch(new EntityDeletedEvent<T>(entity));
+            DomainEvents.Dispatch(new EntityDeletedEvent<T>(entity));
         }
     }
 }

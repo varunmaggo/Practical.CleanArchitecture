@@ -1,4 +1,4 @@
-﻿using ClassifiedAds.Domain.DomainEvents;
+﻿using ClassifiedAds.Domain.Events;
 using ClassifiedAds.Domain.Entities;
 
 namespace ClassifiedAds.Application.Events

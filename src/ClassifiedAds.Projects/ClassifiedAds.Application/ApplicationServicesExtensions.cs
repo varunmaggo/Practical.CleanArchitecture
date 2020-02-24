@@ -2,7 +2,7 @@
 using ClassifiedAds.Application.Commands;
 using ClassifiedAds.Application.Decorators;
 using ClassifiedAds.Application.Queries;
-using ClassifiedAds.Domain.DomainEvents;
+using ClassifiedAds.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;

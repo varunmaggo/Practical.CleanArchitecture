@@ -14,7 +14,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ClassifiedAds.BackgroundServices": {
+    "ClassifiedAds.BackgroundServer": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

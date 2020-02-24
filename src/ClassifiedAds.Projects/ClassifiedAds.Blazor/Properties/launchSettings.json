@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ClassifiedAds.BlazorServerSide": {
+    "ClassifiedAds.Blazor": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
