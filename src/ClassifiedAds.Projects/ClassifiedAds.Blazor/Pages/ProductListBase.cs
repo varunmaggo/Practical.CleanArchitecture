@@ -1,4 +1,4 @@
-﻿using ClassifiedAds.DomainServices.Entities;
+﻿using ClassifiedAds.Domain.Entities;
 using ClassifiedAds.Blazor.Services;
 using ClassifiedAds.Blazor.Components;
 using Microsoft.AspNetCore.Components;

@@ -1,4 +1,4 @@
-using ClassifiedAds.DomainServices.Entities;
+using ClassifiedAds.Domain.Entities;
 using GraphQL.Client;
 using GraphQL.Common.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -2,11 +2,11 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /ClassifiedAds.Projects
 
 # Copy csproj and restore as distinct layers
-COPY ./ClassifiedAds.ApplicationServices/*.csproj ./ClassifiedAds.ApplicationServices/
+COPY ./ClassifiedAds.Application/*.csproj ./ClassifiedAds.Application/
 COPY ./ClassifiedAds.BackgroundServer/*.csproj ./ClassifiedAds.BackgroundServer/
 COPY ./ClassifiedAds.Blazor/*.csproj ./ClassifiedAds.Blazor/
 COPY ./ClassifiedAds.CrossCuttingConcerns/*.csproj ./ClassifiedAds.CrossCuttingConcerns/
-COPY ./ClassifiedAds.DomainServices/*.csproj ./ClassifiedAds.DomainServices/
+COPY ./ClassifiedAds.Domain/*.csproj ./ClassifiedAds.Domain/
 COPY ./ClassifiedAds.DomainServices.UnitTests/*.csproj ./ClassifiedAds.DomainServices.UnitTests/
 COPY ./ClassifiedAds.GraphQL/*.csproj ./ClassifiedAds.GraphQL/
 COPY ./ClassifiedAds.GraphQL.IntegrationTests/*.csproj ./ClassifiedAds.GraphQL.IntegrationTests/

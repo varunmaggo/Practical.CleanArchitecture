@@ -1,4 +1,4 @@
-using ClassifiedAds.DomainServices.Entities;
+using ClassifiedAds.Domain.Entities;
 using ClassifiedAds.CrossCuttingConcerns.ExtensionMethods;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using ClassifiedAds.Blazor.Services;
-using ClassifiedAds.DomainServices.Entities;
+using ClassifiedAds.Domain.Entities;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 

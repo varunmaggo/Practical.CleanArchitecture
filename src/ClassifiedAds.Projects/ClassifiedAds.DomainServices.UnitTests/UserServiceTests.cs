@@ -1,13 +1,13 @@
 using ClassifiedAds.CrossCuttingConcerns.Exceptions;
-using ClassifiedAds.DomainServices.Entities;
-using ClassifiedAds.DomainServices.Repositories;
+using ClassifiedAds.Domain.Entities;
+using ClassifiedAds.Domain.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ClassifiedAds.DomainServices.UnitTests
+namespace ClassifiedAds.Domain.UnitTests
 {
     [TestClass]
     public class UserServiceTests
