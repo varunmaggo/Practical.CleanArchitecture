@@ -111,13 +111,13 @@
                 <picker id="AllowedScopesItems" multiple-select="true" min-search-text="2"
                         selected-items="@Model.AllowedScopes.Select(x=>x.Scope).ToList()"
                         url="@Url.Action("GetScopes","Client")?scope"
-                        search-input-placeholder="Search Scope"
-                        selected-items-title="Selected Items"
-                        search-result-title="Search Result"
-                        suggested-items-title="Suggested Items"
-                        no-item-selected-title="No Item Selected"
-                        show-all-items-title="Show All Items"
-                        item-already-selected-title="Item Already Selected">
+                        search-input-placeholder="enter"
+                        selected-items-title="selected items"
+                        search-result-title="search result"
+                        suggested-items-title="suggested items"
+                        no-item-selected-title="no item selected"
+                        show-all-items-title="show all items"
+                        item-already-selected-title="item already selected">
                 </picker>
             </div>
         </div>
@@ -131,13 +131,13 @@
             <div class="col-sm-9">
                 <picker id="RedirectUrisItems" multiple-select="true" min-search-text="2"
                         selected-items="@Model.RedirectUris.Select(x=>x.RedirectUri).ToList()"
-                        search-input-placeholder="Search"
-                        selected-items-title="Selected Items"
-                        search-result-title="Search Result"
-                        suggested-items-title="Suggested Items"
-                        no-item-selected-title="No Item Selected"
-                        show-all-items-title="Show All Items"
-                        item-already-selected-title="Item Already Selected">
+                        search-input-placeholder="enter"
+                        selected-items-title="selected items"
+                        search-result-title="search result"
+                        suggested-items-title="suggested items"
+                        no-item-selected-title="no item selected"
+                        show-all-items-title="show all items"
+                        item-already-selected-title="item already selected">
                 </picker>
             </div>
         </div>
@@ -151,13 +151,13 @@
                 <picker id="AllowedGrantTypesItems" multiple-select="true" min-search-text="2"
                         url="@Url.Action("GetGrantTypes","Client")?grant"
                         selected-items="@Model.AllowedGrantTypes.Select(x=>x.GrantType).ToList()"
-                        search-input-placeholder="Search Grant Type"
-                        selected-items-title="Selected Items"
-                        search-result-title="Search Result"
-                        suggested-items-title="Suggested Items"
-                        no-item-selected-title="No Item Selected"
-                        show-all-items-title="Show All Items"
-                        item-already-selected-title="Item Already Selected">
+                        search-input-placeholder="enter"
+                        selected-items-title="selected items"
+                        search-result-title="search result"
+                        suggested-items-title="suggested items"
+                        no-item-selected-title="no item selected"
+                        show-all-items-title="show all items"
+                        item-already-selected-title="item already selected">
                 </picker>
             </div>
         </div>
@@ -168,7 +168,7 @@
                 @await Html.PartialAsync("_Label", "Client Secrets")
             </label>
             <div class="col-sm-9">
-                <a asp-action="ClientSecrets" asp-route-id="@Model.Id" target="_blank" class="btn btn-primary">Manage Client Secrets</a>
+                <a asp-action="ClientSecrets" asp-route-id="@Model.Id" target="_blank" class="btn btn-primary">Manage Secrets</a>
             </div>
         </div>
 
@@ -179,7 +179,7 @@
                 @await Html.PartialAsync("_Label", "Properties")
             </label>
             <div class="col-sm-9">
-                <a asp-action="ClientProperties" asp-route-id="@Model.Id" target="_blank" class="btn btn-primary">Manage Client Properties</a>
+                <a asp-action="ClientProperties" asp-route-id="@Model.Id" target="_blank" class="btn btn-primary">Manage Properties</a>
             </div>
         </div>
     </div>
