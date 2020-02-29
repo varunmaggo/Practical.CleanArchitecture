@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ClassifiedAds.IdentityServer.Models.IdentityResourceModels
 {
-    public class PropertiesListModel
+    public class PropertiesModel
     {
         public int IdentityResourceId { get; set; }
         public string IdentityResourceName { get; set; }
@@ -12,9 +12,9 @@ namespace ClassifiedAds.IdentityServer.Models.IdentityResourceModels
         public string Value { get; set; }
         public List<IdentityResourcePropertyModel> Properties { get; set; }
 
-        public static PropertiesListModel FromEntity(IdentityResource identityResource)
+        public static PropertiesModel FromEntity(IdentityResource identityResource)
         {
-            return new PropertiesListModel
+            return new PropertiesModel
             {
                 IdentityResourceId = identityResource.Id,
                 IdentityResourceName = identityResource.Name,

@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Client\" />
-    <Folder Include="Models\ApiResource\" />
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,15 @@
-﻿@using ClassifiedAds.IdentityServer.Models.IdentityResourceModels
-@model IdentityResourcePropertyModel
+﻿@using ClassifiedAds.IdentityServer.Models.ApiResourceModels
+@model ApiResourcePropertyModel
 
-<form asp-controller="IdentityResource" asp-action="DeleteProperty" Method="post">
+<form asp-controller="ApiResource" asp-action="DeleteProperty" Method="post">
     <div class="row">
 
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a asp-controller="IdentityResource" asp-action="Index">Identity Resources</a></li>
-                    <li class="breadcrumb-item"><a asp-controller="IdentityResource" asp-action="Edit" asp-route-id="@Model.IdentityResource.Id">@Model.IdentityResource.Name</a></li>
-                    <li class="breadcrumb-item"><a asp-controller="IdentityResource" asp-action="Properties" asp-route-id="@Model.IdentityResource.Id">Properties</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="ApiResource" asp-action="Index">Api Resources</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="ApiResource" asp-action="Edit" asp-route-id="@Model.ApiResource.Id">@Model.ApiResource.Name</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="ApiResource" asp-action="Properties" asp-route-id="@Model.ApiResource.Id">Properties</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Delete Property</li>
                 </ol>
             </nav>
@@ -19,7 +19,7 @@
             <h3>Delete Property</h3>
 
             <!--Hidden -->
-            <input type="hidden" asp-for="IdentityResource.Id" />
+            <input type="hidden" asp-for="ApiResource.Id" />
             <input type="hidden" asp-for="Id" />
 
             <div class="card mt-3">

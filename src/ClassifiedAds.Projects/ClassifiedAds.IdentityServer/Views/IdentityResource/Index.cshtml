@@ -22,19 +22,23 @@
                     <tr>
                         <th></th>
                         <th>Name</th>
+                        <th>Display Name</th>
+                        <th>Description</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var identity in Model)
                     {
-                        <tr>
-                            <th scope="row"><a class="btn btn-primary" asp-action="Edit" asp-route-id="@identity.Id">Edit</a></th>
-                            <td>@identity.Name</td>
-                            <td>
-                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@identity.Id"><span class="oi oi-x"></span></a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <th scope="row"><a class="btn btn-primary" asp-action="Edit" asp-route-id="@identity.Id">Edit</a></th>
+                        <td>@identity.Name</td>
+                        <td>@identity.DisplayName</td>
+                        <td>@identity.Description</td>
+                        <td>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@identity.Id"><span class="oi oi-x"></span></a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

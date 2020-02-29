@@ -26,6 +26,11 @@ namespace ClassifiedAds.IdentityServer.Controllers
             return View(itentities.ToModels().ToList());
         }
 
+        public IActionResult Add()
+        {
+            return View(nameof(Edit), new IdentityResourceModel());
+        }
+
         public IActionResult Edit(int id)
         {
             var identity = _configurationDbContext.IdentityResources
@@ -37,12 +42,24 @@ namespace ClassifiedAds.IdentityServer.Controllers
         [HttpPost]
         public IActionResult Edit(IdentityResourceModel model)
         {
-            var identity = _configurationDbContext.IdentityResources
-                .Include(x => x.UserClaims)
-                .FirstOrDefault(x => x.Id == model.Id);
+            IdentityResource identity;
+            if (model.Id == 0)
+            {
+                identity = new IdentityResource
+                {
+                    UserClaims = new List<IdentityClaim>(),
+                };
+                _configurationDbContext.IdentityResources.Add(identity);
+            }
+            else
+            {
+                identity = _configurationDbContext.IdentityResources
+                    .Include(x => x.UserClaims)
+                    .FirstOrDefault(x => x.Id == model.Id);
+                identity.UserClaims.Clear();
+            }
 
             model.UpdateEntity(identity);
-            identity.UserClaims.Clear();
 
             if (!string.IsNullOrEmpty(model.UserClaimsItems))
             {
@@ -56,19 +73,39 @@ namespace ClassifiedAds.IdentityServer.Controllers
 
             _configurationDbContext.SaveChanges();
 
-            return RedirectToAction(nameof(Edit), new { id = model.Id });
+            return RedirectToAction(nameof(Edit), new { id = identity.Id });
         }
 
-        public IActionResult PropertiesList(int id)
+        public IActionResult Delete(int id)
+        {
+            var identity = _configurationDbContext.IdentityResources
+                .Include(x => x.UserClaims)
+                .FirstOrDefault(x => x.Id == id);
+            return View(identity.ToModel());
+        }
+
+        [HttpPost]
+        public IActionResult Delete(IdentityResourceModel model)
+        {
+            var identity = _configurationDbContext.IdentityResources
+                .FirstOrDefault(x => x.Id == model.Id);
+
+            _configurationDbContext.IdentityResources.Remove(identity);
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Properties(int id)
         {
             var identity = _configurationDbContext.IdentityResources
                 .Include(x => x.Properties)
                 .FirstOrDefault(x => x.Id == id);
-            return View(PropertiesListModel.FromEntity(identity));
+            return View(PropertiesModel.FromEntity(identity));
         }
 
         [HttpPost]
-        public IActionResult AddProperty(PropertiesListModel model)
+        public IActionResult AddProperty(PropertiesModel model)
         {
             var identity = _configurationDbContext.IdentityResources
                 .Include(x => x.Properties)
@@ -82,7 +119,7 @@ namespace ClassifiedAds.IdentityServer.Controllers
 
             _configurationDbContext.SaveChanges();
 
-            return RedirectToAction(nameof(PropertiesList), new { id = identity.Id });
+            return RedirectToAction(nameof(Properties), new { id = identity.Id });
         }
 
         [HttpGet]
@@ -104,7 +141,7 @@ namespace ClassifiedAds.IdentityServer.Controllers
             identity.Properties.Remove(prop);
             _configurationDbContext.SaveChanges();
 
-            return RedirectToAction(nameof(PropertiesList), new { id = identity.Id });
+            return RedirectToAction(nameof(Properties), new { id = identity.Id });
         }
 
         public IActionResult GetClaims()

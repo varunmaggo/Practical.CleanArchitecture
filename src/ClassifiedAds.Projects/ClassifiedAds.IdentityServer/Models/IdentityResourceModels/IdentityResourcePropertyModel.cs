@@ -7,18 +7,7 @@ namespace ClassifiedAds.IdentityServer.Models.IdentityResourceModels
         public int Id { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
-
         public IdentityResourceModel IdentityResource { get; set; }
-
-        public IdentityResourceProperty ToEntity()
-        {
-            return new IdentityResourceProperty
-            {
-                Id = Id,
-                Key = Key,
-                Value = Value,
-            };
-        }
 
         public static IdentityResourcePropertyModel FromEntity(IdentityResourceProperty entity)
         {
