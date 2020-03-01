@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClassifiedAds.IdentityServer.Models.ClientModels;
 using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +45,12 @@ namespace ClassifiedAds.IdentityServer.Controllers
             .ToList();
 
             return View(clients);
+        }
+
+        public IActionResult Add()
+        {
+            var client = new Client();
+            return View(nameof(Edit), client);
         }
 
         public IActionResult Edit(int id)
@@ -86,10 +94,161 @@ namespace ClassifiedAds.IdentityServer.Controllers
                     "authorization_code",
                     "hybrid",
                     "password",
-                    "urn:ietf:params:oauth:grant-type:device_code"
+                    "urn:ietf:params:oauth:grant-type:device_code",
                 };
 
             return Ok(allowedGrantypes);
+        }
+
+        public IActionResult Properties(int id)
+        {
+            var client = _configurationDbContext.Clients
+                .Include(x => x.Properties)
+                .FirstOrDefault(x => x.Id == id);
+            return View(PropertiesModel.FromEntity(client));
+        }
+
+        [HttpPost]
+        public IActionResult AddProperty(PropertiesModel model)
+        {
+            var client = _configurationDbContext.Clients
+                .Include(x => x.Properties)
+                .FirstOrDefault(x => x.Id == model.Client.Id);
+
+            client.Properties.Add(new ClientProperty
+            {
+                Key = model.Key,
+                Value = model.Value,
+            });
+
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Properties), new { id = client.Id });
+        }
+
+        [HttpGet]
+        public IActionResult DeleteProperty(int id)
+        {
+            var prop = _configurationDbContext.Set<ClientProperty>()
+                .Include(x => x.Client)
+                .FirstOrDefault(x => x.Id == id);
+            return View(PropertyModel.FromEntity(prop));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteProperty(PropertyModel model)
+        {
+            var client = _configurationDbContext.Clients
+                            .Include(x => x.Properties)
+                            .FirstOrDefault(x => x.Id == model.Client.Id);
+            var prop = client.Properties.FirstOrDefault(x => x.Id == model.Id);
+            client.Properties.Remove(prop);
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Properties), new { id = client.Id });
+        }
+
+        public IActionResult Secrets(int id)
+        {
+            var client = _configurationDbContext.Clients
+                .Include(x => x.ClientSecrets)
+                .FirstOrDefault(x => x.Id == id);
+            return View(SecretsModel.FromEntity(client));
+        }
+
+        [HttpPost]
+        public IActionResult Secrets(SecretsModel model)
+        {
+            var client = _configurationDbContext.Clients
+                .Include(x => x.ClientSecrets)
+                .FirstOrDefault(x => x.Id == model.Client.Id);
+
+            var secret = new ClientSecret
+            {
+                Created = DateTime.Now,
+            };
+
+            model.HashSecret();
+            model.UpdateEntity(secret);
+            client.ClientSecrets.Add(secret);
+
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Secrets), new { id = client.Id });
+        }
+
+        [HttpGet]
+        public IActionResult DeleteSecret(int id)
+        {
+            var secret = _configurationDbContext.Set<ClientSecret>()
+                .Include(x => x.Client)
+                .FirstOrDefault(x => x.Id == id);
+            return View(SecretModel.FromEntity(secret));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteSecret(SecretModel model)
+        {
+            var client = _configurationDbContext.Clients
+                            .Include(x => x.ClientSecrets)
+                            .FirstOrDefault(x => x.Id == model.Client.Id);
+            var secret = client.ClientSecrets.FirstOrDefault(x => x.Id == model.Id);
+            client.ClientSecrets.Remove(secret);
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Secrets), new { id = client.Id });
+        }
+
+        public IActionResult Claims(int id)
+        {
+            var client = _configurationDbContext.Clients
+                .Include(x => x.Claims)
+                .FirstOrDefault(x => x.Id == id);
+
+            return View(ClaimsModel.FromEntity(client));
+        }
+
+        [HttpPost]
+        public IActionResult Claims(ClaimModel model)
+        {
+            var client = _configurationDbContext.Clients
+                .Include(x => x.Claims)
+                .FirstOrDefault(x => x.Id == model.Client.Id);
+
+            client.Claims.Add(new ClientClaim
+            {
+                Type = model.Type,
+                Value = model.Value,
+            });
+
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Claims), new { id = client.Id });
+        }
+
+        public IActionResult DeleteClaim(int id)
+        {
+            var claim = _configurationDbContext.Set<ClientClaim>()
+                .Include(x => x.Client)
+                .FirstOrDefault(x => x.Id == id);
+
+            return View(ClaimModel.FromEntity(claim));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteClaim(ClaimModel model)
+        {
+            var client = _configurationDbContext.Clients
+                .Include(x => x.Claims)
+                .FirstOrDefault(x => x.Id == model.Client.Id);
+
+            var claim = client.Claims.FirstOrDefault(x => x.Id == model.Id);
+
+            client.Claims.Remove(claim);
+
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Claims), new { id = client.Id });
         }
     }
 }

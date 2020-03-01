@@ -1,11 +1,8 @@
-﻿using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.Models;
-using System;
+﻿using IdentityServer4.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace ClassifiedAds.IdentityServer.Models.ApiResourceModels
+namespace ClassifiedAds.IdentityServer.Models.ClientModels
 {
     public class SecretsModel : SecretModel
     {
@@ -48,13 +45,12 @@ namespace ClassifiedAds.IdentityServer.Models.ApiResourceModels
             entity.Type = Type;
         }
 
-        public static SecretsModel FromEntity(IdentityServer4.EntityFramework.Entities.ApiResource apiResource)
+        public static SecretsModel FromEntity(IdentityServer4.EntityFramework.Entities.Client client)
         {
             return new SecretsModel
             {
-                ApiResourceId = apiResource.Id,
-                ApiResourceName = apiResource.Name,
-                Secrets = apiResource.Secrets?.Select(x => FromEntity(x))?.ToList(),
+                Client = ClientModel.FromEntity(client),
+                Secrets = client.ClientSecrets?.Select(x => FromEntity(x))?.ToList(),
             };
         }
     }

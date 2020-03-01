@@ -168,7 +168,7 @@
                 @await Html.PartialAsync("_Label", "Client Secrets")
             </label>
             <div class="col-sm-9">
-                <a asp-action="ClientSecrets" asp-route-id="@Model.Id" target="_blank" class="btn btn-primary">Manage Secrets</a>
+                <a asp-action="Secrets" asp-route-id="@Model.Id" class="btn btn-primary">Manage Secrets</a>
             </div>
         </div>
 
@@ -179,7 +179,7 @@
                 @await Html.PartialAsync("_Label", "Properties")
             </label>
             <div class="col-sm-9">
-                <a asp-action="ClientProperties" asp-route-id="@Model.Id" target="_blank" class="btn btn-primary">Manage Properties</a>
+                <a asp-action="Properties" asp-route-id="@Model.Id" class="btn btn-primary">Manage Properties</a>
             </div>
         </div>
     </div>
