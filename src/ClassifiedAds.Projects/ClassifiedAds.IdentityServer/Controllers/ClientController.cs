@@ -101,6 +101,66 @@ namespace ClassifiedAds.IdentityServer.Controllers
             return RedirectToAction(nameof(Edit), new { id = client.Id });
         }
 
+        public IActionResult Clone(int id)
+        {
+            var client = _configurationDbContext.Clients
+            .Include(x => x.AllowedGrantTypes)
+            .Include(x => x.RedirectUris)
+            .Include(x => x.PostLogoutRedirectUris)
+            .Include(x => x.AllowedScopes)
+            .Include(x => x.ClientSecrets)
+            .Include(x => x.Claims)
+            .Include(x => x.IdentityProviderRestrictions)
+            .Include(x => x.AllowedCorsOrigins)
+            .Include(x => x.Properties)
+            .Where(x => x.Id == id)
+            .AsNoTracking()
+            .FirstOrDefault();
+
+            var model = ClientModel.FromEntity(client);
+            model.OriginalClientId = model.ClientId;
+            model.ClientId = $"Clone_From_{model.ClientId}_{DateTime.Now.ToString("yyyyMMddhhmmssfff")}";
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Clone(ClientModel model)
+        {
+            Client client = new Client();
+            model.ConvertItemsToList();
+            model.UpdateEntity(client);
+
+            _configurationDbContext.Clients.Add(client);
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Edit), new { id = client.Id });
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var client = _configurationDbContext.Clients
+            .Where(x => x.Id == id)
+            .AsNoTracking()
+            .FirstOrDefault();
+
+            var model = ClientModel.FromEntity(client);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(ClientModel model)
+        {
+            var client = _configurationDbContext.Clients
+            .FirstOrDefault(x => x.Id == model.Id);
+
+            _configurationDbContext.Clients.Remove(client);
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         public IActionResult GetScopes()
         {
             var identityResources = _configurationDbContext.IdentityResources

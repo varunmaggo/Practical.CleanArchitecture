@@ -89,8 +89,8 @@ namespace Microsoft.Extensions.DependencyInjection
                         },
                         new Client
                         {
-                            ClientId = "ClassifiedAds.BlazorServerSide",
-                            ClientName = "ClassifiedAds Blazor Server Side",
+                            ClientId = "ClassifiedAds.Blazor",
+                            ClientName = "ClassifiedAds Blazor",
                             AllowedGrantTypes = GrantTypes.Hybrid.Combines(GrantTypes.ResourceOwnerPassword),
                             RedirectUris =
                             {

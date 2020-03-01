@@ -6,7 +6,7 @@
 
     @if (Model.Id != 0)
     {
-        <a asp-action="Clone" asp-route-id="@Model.Id" target="_blank" class="btn btn-outline-primary">Clone</a>
+        <a asp-action="Clone" asp-route-id="@Model.Id" class="btn btn-outline-primary">Clone</a>
         <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
     }
 </div>

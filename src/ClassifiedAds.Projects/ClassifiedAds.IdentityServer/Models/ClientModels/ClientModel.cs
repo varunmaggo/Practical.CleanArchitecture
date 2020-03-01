@@ -29,6 +29,8 @@ namespace ClassifiedAds.IdentityServer.Models.ClientModels
         public string IdentityProviderRestrictionsItems { get; set; }
         public string AllowedCorsOriginsItems { get; set; }
 
+        public string OriginalClientId { get; set; }
+
         public static ClientModel FromEntity(IdentityServer4.EntityFramework.Entities.Client client)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<IdentityServer4.Models.Client, ClientModel>());
