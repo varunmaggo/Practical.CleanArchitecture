@@ -1,5 +1,5 @@
-﻿@model IdentityServer4.EntityFramework.Entities.Client
-@using ClassifiedAds.IdentityServer.Controllers
+﻿@using ClassifiedAds.IdentityServer.Models.ClientModels
+@model ClientModel
 
 <div class="card mt-3">
     <h5 class="card-header">Name</h5>
@@ -29,74 +29,74 @@
 
         @if (Model.Id == 0)
         {
-        <div class="card-deck mb-3 text-center">
-            <div class="card mt-4 mb-4 box-shadow">
-                <div class="card-body">
-                    <label class="radio-img">
-                        <input type="radio"  checked="checked" value="@((int)ClientType.Empty)" />
-                        <img src="~/images/icons/empty-client.png" alt="Empty" />
-                        <h3>TitleEmpty</h3>
-                    </label>
+            <div class="card-deck mb-3 text-center">
+                <div class="card mt-4 mb-4 box-shadow">
+                    <div class="card-body">
+                        <label class="radio-img">
+                            <input type="radio" asp-for="ClientType" checked="checked" value="@((int)ClientType.Empty)" />
+                            <img src="~/images/icons/empty-client.png" alt="Empty" />
+                            <h3>Empty - Default</h3>
+                        </label>
+                    </div>
+                </div>
+                <div class="w-100 d-none d-sm-block d-md-none"></div>
+                <div class="card mt-4 mb-4 box-shadow">
+                    <div class="card-body">
+                        <label class="radio-img">
+                            <input type="radio" asp-for="ClientType" value="@((int)ClientType.Spa)" />
+                            <img src="~/images/icons/spa-client.png" alt="Web Spa" />
+                            <h3>Single Page Application - Javascript</h3>
+                            <h4>Authorization Code Flow with PKCE</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="w-100 d-none d-sm-block d-md-none"></div>
+                <div class="card mt-4 mb-4 box-shadow">
+                    <div class="card-body">
+                        <label class="radio-img">
+                            <input type="radio" asp-for="ClientType" value="@((int)ClientType.WebHybrid)" />
+                            <img src="~/images/icons/web-client.png" alt="Web Hybrid" />
+                            <h3>Web Application - Server Side</h3>
+                            <h4>Hybrid flow</h4>
+                        </label>
+                    </div>
                 </div>
             </div>
-            <div class="w-100 d-none d-sm-block d-md-none"></div>
-            <div class="card mt-4 mb-4 box-shadow">
-                <div class="card-body">
-                    <label class="radio-img">
-                        <input type="radio"  value="@((int)ClientType.Spa)" />
-                        <img src="~/images/icons/spa-client.png" alt="Web Spa" />
-                        <h3>TitleSpa</h3>
-                        <h4>TitleCode</h4>
-                    </label>
-                </div>
-            </div>
-            <div class="w-100 d-none d-sm-block d-md-none"></div>
-            <div class="card mt-4 mb-4 box-shadow">
-                <div class="card-body">
-                    <label class="radio-img">
-                        <input type="radio"  value="@((int)ClientType.WebHybrid)" />
-                        <img src="~/images/icons/web-client.png" alt="Web Hybrid" />
-                        <h3>TitleWebHybrid</h3>
-                        <h4>TitleHybrid</h4>
-                    </label>
-                </div>
-            </div>
-        </div>
 
-        <div class="card-deck mb-3 text-center">
-            <div class="card mb-4 box-shadow">
-                <div class="card-body">
-                    <label class="radio-img">
-                        <input type="radio" value="@((int)ClientType.Device)" />
-                        <img src="~/images/icons/device-client.png" alt="Device" />
-                        <h3>TitleDevice</h3>
-                        <h4>TitleDeviceFlow</h4>
-                    </label>
+            <div class="card-deck mb-3 text-center">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <label class="radio-img">
+                            <input type="radio" asp-for="ClientType" value="@((int)ClientType.Device)" />
+                            <img src="~/images/icons/device-client.png" alt="Device" />
+                            <h3>TV and Limited-Input Device Application</h3>
+                            <h4>Device flow</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="w-100 d-none d-sm-block d-md-none"></div>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <label class="radio-img">
+                            <input type="radio" asp-for="ClientType" value="@((int)ClientType.Native)" />
+                            <img src="~/images/icons/native-client.png" alt="Native" />
+                            <h3>Native Application - Mobile/Desktop</h3>
+                            <h4>Hybrid flow</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="w-100 d-none d-sm-block d-md-none"></div>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <label class="radio-img">
+                            <input type="radio" asp-for="ClientType" value="@((int)ClientType.Machine)" />
+                            <img src="~/images/icons/server-client.png" alt="Machine" />
+                            <h3>Machine/Robot</h3>
+                            <h4>Resource Owner Password and Client Credentials flow</h4>
+                        </label>
+                    </div>
                 </div>
             </div>
-            <div class="w-100 d-none d-sm-block d-md-none"></div>
-            <div class="card mb-4 box-shadow">
-                <div class="card-body">
-                    <label class="radio-img">
-                        <input type="radio" value="@((int)ClientType.Native)" />
-                        <img src="~/images/icons/native-client.png" alt="Native" />
-                        <h3>TitleNative</h3>
-                        <h4>TitleHybrid</h4>
-                    </label>
-                </div>
-            </div>
-            <div class="w-100 d-none d-sm-block d-md-none"></div>
-            <div class="card mb-4 box-shadow">
-                <div class="card-body">
-                    <label class="radio-img">
-                        <input type="radio" value="@((int)ClientType.Machine)" />
-                        <img src="~/images/icons/server-client.png" alt="Machine" />
-                        <h3>TitleMachine</h3>
-                        <h4>TitlePasswordAndClient</h4>
-                    </label>
-                </div>
-            </div>
-        </div>
         }
     </div>
 </div>

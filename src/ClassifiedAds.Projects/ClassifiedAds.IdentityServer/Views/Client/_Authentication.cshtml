@@ -1,5 +1,5 @@
-﻿@model IdentityServer4.EntityFramework.Entities.Client
-
+﻿@using ClassifiedAds.IdentityServer.Models.ClientModels
+@model ClientModel
 
 <div class="card mt-3">
     <h5 class="card-header">Authentication</h5>
@@ -67,7 +67,7 @@
             </label>
             <div class="col-sm-9">
                 <picker id="PostLogoutRedirectUrisItems" multiple-select="true" min-search-text="2"
-                        selected-items="@Model.PostLogoutRedirectUris?.Select(x=>x.PostLogoutRedirectUri)?.ToList()"
+                        selected-items="@Model.PostLogoutRedirectUris?.ToList()"
                         search-input-placeholder="enter"
                         selected-items-title="selected items"
                         search-result-title="search result"
@@ -86,7 +86,7 @@
             </label>
             <div class="col-sm-9">
                 <picker id="IdentityProviderRestrictionsItems" multiple-select="true" min-search-text="2"
-                        selected-items="@Model.IdentityProviderRestrictions?.Select(x=>x.Provider)?.ToList()"
+                        selected-items="@Model.IdentityProviderRestrictions?.ToList()"
                         search-input-placeholder="enter"
                         selected-items-title="selected items"
                         search-result-title="search result"

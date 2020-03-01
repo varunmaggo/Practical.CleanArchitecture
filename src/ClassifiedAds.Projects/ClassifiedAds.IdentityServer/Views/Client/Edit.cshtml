@@ -1,6 +1,7 @@
-﻿@model IdentityServer4.EntityFramework.Entities.Client
+﻿@using ClassifiedAds.IdentityServer.Models.ClientModels
+@model ClientModel
 
-<form id="client-form" asp-controller="Configuration" asp-action="Client" Method="post">
+<form id="client-form" asp-controller="Client" asp-action="Edit" Method="post">
 
     <div class="row">
         <div class="col-12">

@@ -1,5 +1,5 @@
-﻿@model IdentityServer4.EntityFramework.Entities.Client
-
+﻿@using ClassifiedAds.IdentityServer.Models.ClientModels
+@model ClientModel
 
 <div class="card mt-3">
     <h5 class="card-header">Token</h5>
@@ -91,7 +91,7 @@
             </label>
             <div class="col-sm-9">
                 <picker id="AllowedCorsOriginsItems" multiple-select="true" min-search-text="2"
-                        selected-items="@Model.AllowedCorsOrigins?.Select(x=>x.Origin)?.ToList()"
+                        selected-items="@Model.AllowedCorsOrigins?.ToList()"
                         search-input-placeholder="enter"
                         selected-items-title="selected items"
                         search-result-title="search result"

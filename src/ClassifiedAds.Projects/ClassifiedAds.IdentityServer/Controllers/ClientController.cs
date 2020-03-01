@@ -10,16 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClassifiedAds.IdentityServer.Controllers
 {
-    public enum ClientType
-    {
-        Empty = 0,
-        WebHybrid = 1,
-        Spa = 2,
-        Native = 3,
-        Machine = 4,
-        Device = 5,
-    }
-
     public class ClientController : Controller
     {
         private readonly ConfigurationDbContext _configurationDbContext;
@@ -44,12 +34,14 @@ namespace ClassifiedAds.IdentityServer.Controllers
             .AsNoTracking()
             .ToList();
 
-            return View(clients);
+            var models = clients.Select(x => ClientModel.FromEntity(x)).ToList();
+
+            return View(models);
         }
 
         public IActionResult Add()
         {
-            var client = new Client();
+            var client = new ClientModel();
             return View(nameof(Edit), client);
         }
 
@@ -69,7 +61,44 @@ namespace ClassifiedAds.IdentityServer.Controllers
             .AsNoTracking()
             .FirstOrDefault();
 
-            return View(client);
+            var model = ClientModel.FromEntity(client);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ClientModel model)
+        {
+            Client client;
+            if (model.Id == 0)
+            {
+                model.SetDefaultValues();
+                client = new Client();
+                _configurationDbContext.Clients.Add(client);
+            }
+            else
+            {
+                model.ConvertItemsToList();
+
+                client = _configurationDbContext.Clients
+                        .Include(x => x.AllowedGrantTypes)
+                        .Include(x => x.RedirectUris)
+                        .Include(x => x.PostLogoutRedirectUris)
+                        .Include(x => x.AllowedScopes)
+                        .Include(x => x.ClientSecrets)
+                        .Include(x => x.Claims)
+                        .Include(x => x.IdentityProviderRestrictions)
+                        .Include(x => x.AllowedCorsOrigins)
+                        .Include(x => x.Properties)
+                        .Where(x => x.Id == model.Id)
+                        .FirstOrDefault();
+                client.Updated = DateTime.Now;
+            }
+
+            model.UpdateEntity(client);
+            _configurationDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Edit), new { id = client.Id });
         }
 
         public IActionResult GetScopes()

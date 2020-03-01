@@ -1,5 +1,5 @@
-﻿@model IdentityServer4.EntityFramework.Entities.Client
-
+﻿@using ClassifiedAds.IdentityServer.Models.ClientModels
+@model ClientModel
 @{
     var protocolTypes = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("oidc", "OpenID Connect") };
 }
@@ -109,7 +109,7 @@
             </label>
             <div class="col-sm-9">
                 <picker id="AllowedScopesItems" multiple-select="true" min-search-text="2"
-                        selected-items="@Model.AllowedScopes.Select(x=>x.Scope).ToList()"
+                        selected-items="@Model.AllowedScopes?.ToList()"
                         url="@Url.Action("GetScopes","Client")?scope"
                         search-input-placeholder="enter"
                         selected-items-title="selected items"
@@ -130,7 +130,7 @@
             </label>
             <div class="col-sm-9">
                 <picker id="RedirectUrisItems" multiple-select="true" min-search-text="2"
-                        selected-items="@Model.RedirectUris.Select(x=>x.RedirectUri).ToList()"
+                        selected-items="@Model.RedirectUris?.ToList()"
                         search-input-placeholder="enter"
                         selected-items-title="selected items"
                         search-result-title="search result"
@@ -150,7 +150,7 @@
             <div class="col-sm-9">
                 <picker id="AllowedGrantTypesItems" multiple-select="true" min-search-text="2"
                         url="@Url.Action("GetGrantTypes","Client")?grant"
-                        selected-items="@Model.AllowedGrantTypes.Select(x=>x.GrantType).ToList()"
+                        selected-items="@Model.AllowedGrantTypes?.ToList()"
                         search-input-placeholder="enter"
                         selected-items-title="selected items"
                         search-result-title="search result"
