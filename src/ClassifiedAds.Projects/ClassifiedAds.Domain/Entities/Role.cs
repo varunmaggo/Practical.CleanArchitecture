@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClassifiedAds.Domain.Entities
 {
@@ -9,5 +10,7 @@ namespace ClassifiedAds.Domain.Entities
         public virtual string NormalizedName { get; set; }
 
         public virtual string ConcurrencyStamp { get; set; }
+
+        public IList<RoleClaim> Claims { get; set; }
     }
 }
