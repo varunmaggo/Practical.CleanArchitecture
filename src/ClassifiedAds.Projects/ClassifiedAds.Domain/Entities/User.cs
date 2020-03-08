@@ -36,5 +36,7 @@ namespace ClassifiedAds.Domain.Entities
         public IList<UserToken> Tokens { get; set; }
 
         public IList<UserClaim> Claims { get; set; }
+
+        public IList<UserRole> UserRoles { get; set; }
     }
 }

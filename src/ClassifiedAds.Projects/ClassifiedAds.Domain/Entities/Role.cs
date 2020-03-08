@@ -12,5 +12,7 @@ namespace ClassifiedAds.Domain.Entities
         public virtual string ConcurrencyStamp { get; set; }
 
         public IList<RoleClaim> Claims { get; set; }
+
+        public IList<UserRole> UserRoles { get; set; }
     }
 }

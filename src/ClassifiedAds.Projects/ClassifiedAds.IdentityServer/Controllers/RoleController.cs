@@ -137,5 +137,21 @@ namespace ClassifiedAds.IdentityServer.Controllers
 
             return RedirectToAction(nameof(Claims), new { id = role.Id });
         }
+
+        public IActionResult Users(Guid id)
+        {
+            var role = _dbContext.Set<Role>()
+                .Include("UserRoles.User")
+                .FirstOrDefault(x => x.Id == id);
+
+            var users = role.UserRoles.Select(x => x.User).ToList();
+            var model = new UsersModel
+            {
+                Role = role,
+                Users = users,
+            };
+
+            return View(model);
+        }
     }
 }

@@ -12,7 +12,12 @@ namespace ClassifiedAds.Persistence.MappingConfigurations
         {
             builder.ToTable("Users");
             builder.Property(x => x.Id).HasDefaultValueSql("newsequentialid()");
+
             builder.HasMany(x => x.Claims)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.UserRoles)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
