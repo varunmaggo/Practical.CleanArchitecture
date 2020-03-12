@@ -10,9 +10,7 @@ import { Constants } from '../constants';
   providedIn: 'root'
 })
 export class ProductService {
-  // If using Stackblitz, replace the url with this line
-  // because Stackblitz can't find the api folder.
-  // private productUrl = 'assets/products/products.json';
+
   private productUrl = Constants.apiRoot+ 'products';
 
   constructor(private http: HttpClient) { }
@@ -26,10 +24,19 @@ export class ProductService {
   }
 
   getProduct(id: string): Observable<IProduct | undefined> {
-    return this.getProducts()
-      .pipe(
-        map((products: IProduct[]) => products.find(p => p.id === id))
-      );
+    return this.http.get<IProduct>(this.productUrl+"/"+id)
+    .pipe(
+      tap(data => console.log('One: ' + JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  addProduct(product: IProduct): Observable<IProduct | undefined> {
+    return this.http.post<IProduct>(this.productUrl, product)
+    .pipe(
+      tap(data => console.log('One: ' + JSON.stringify(data))),
+      catchError(this.handleError)
+    );
   }
 
   private handleError(err: HttpErrorResponse) {
