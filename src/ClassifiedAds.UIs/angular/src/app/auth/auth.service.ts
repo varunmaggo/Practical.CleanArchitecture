@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http';
-import { IUser } from './user.model'
-import { UserManager, User, WebStorageStateStore } from 'oidc-client';
-import { Constants } from '../constants';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { IUser } from "./user.model";
+import { UserManager, User, WebStorageStateStore } from "oidc-client";
+import { Constants } from "../constants";
 
 @Injectable()
 export class AuthService {
-
   private _userManager: UserManager;
   private _user: User;
 
@@ -15,16 +14,16 @@ export class AuthService {
       authority: Constants.stsAuthority,
       client_id: Constants.clientId,
       redirect_uri: `${Constants.clientRoot}assets/oidc-login-redirect.html`,
-      scope: 'openid profile ClassifiedAds.WebAPI',
-      response_type: 'id_token token',
+      scope: "openid profile ClassifiedAds.WebAPI",
+      response_type: "id_token token",
       post_logout_redirect_uri: `${Constants.clientRoot}?postLogout=true`,
       userStore: new WebStorageStateStore({ store: window.localStorage })
     };
     this._userManager = new UserManager(config);
   }
 
-  loadUser(){
-    var promise =  this._userManager.getUser();
+  loadUser() {
+    var promise = this._userManager.getUser();
     promise.then(user => {
       if (user && !user.expired) {
         this._user = user;
@@ -33,7 +32,8 @@ export class AuthService {
     return promise;
   }
 
-  login(): Promise<any> {
+  login(returnUrl: string): Promise<any> {
+    console.log("Return Url:", returnUrl);
     return this._userManager.signinRedirect();
   }
 
@@ -46,27 +46,25 @@ export class AuthService {
   }
 
   getAccessToken(): string {
-     return this._user ? this._user.access_token : '';
+    return this._user ? this._user.access_token : "";
   }
 
   signoutRedirectCallback(): Promise<any> {
     return this._userManager.signoutRedirectCallback();
   }
 
-  getCurrentUser(): IUser{
+  getCurrentUser(): IUser {
     return {
       id: this._user.profile.sub,
-      userName: "xxx",
-      firstName: 'John',
-      lastName: 'Papa'
-    }
+      userName: "phongnguyend",
+      firstName: "Phong",
+      lastName: "Nguyen"
+    };
   }
 
   isAuthenticated() {
-    return this.isLoggedIn()
+    return this.isLoggedIn();
   }
 
-  updateCurrentUser(firstName:string, lastName:string) {
-    
-  }
+  updateCurrentUser(firstName: string, lastName: string) {}
 }

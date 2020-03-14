@@ -1,19 +1,18 @@
-import { Component } from '@angular/core';
-import { AuthService } from './auth';
+import { Component } from "@angular/core";
+import { AuthService } from "./auth/auth.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  pageTitle = 'ClassifiedAds.Angular';
+  pageTitle = "ClassifiedAds.Angular";
 
-  constructor(public auth: AuthService) {
-  }
+  constructor(public auth: AuthService) {}
 
   login() {
-    this.auth.login();
+    this.auth.login("");
   }
 
   logout() {

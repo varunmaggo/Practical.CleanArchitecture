@@ -54,7 +54,7 @@ export class EditProductComponent implements OnInit {
       );
     } else {
       this.postError = true;
-      this.postErrorMessage = "Please fix the above errors";
+      this.postErrorMessage = "Please fix the errors";
     }
   }
 
