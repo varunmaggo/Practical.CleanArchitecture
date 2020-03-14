@@ -6,6 +6,7 @@ import { AppComponent } from "./app.component";
 import { HttpClientModule } from "@angular/common/http";
 import { ProductModule } from "./products/product.module";
 import { AuthModule } from "./auth/auth.module";
+import { LoggingModule } from "./logging/logging.module";
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,7 +15,8 @@ import { AuthModule } from "./auth/auth.module";
     HttpClientModule,
     ProductModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    LoggingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
