@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  OpenIdConnect: {
+    Authority: "https://localhost:44367",
+    ClientId: "ClassifiedAds.Angular"
+  },
+  ResourceServer: {
+    Endpoint: "https://localhost:44312/api/"
+  },
+  CurrentUrl: "http://localhost:4200/"
 };
 
 /*

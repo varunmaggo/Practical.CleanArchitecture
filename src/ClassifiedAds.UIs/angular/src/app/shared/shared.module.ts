@@ -1,7 +1,9 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { StarComponent } from "./star.component";
 import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+
+import { StarComponent } from "./star.component";
 import { AppendVersionPipe } from "./append-version.pipe";
 import { AppendCurrentDateTimePipe } from "./append-current-datetime.pipe";
 
@@ -13,7 +15,8 @@ import { AppendCurrentDateTimePipe } from "./append-current-datetime.pipe";
     AppendVersionPipe,
     AppendCurrentDateTimePipe,
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ]
 })
 export class SharedModule {}

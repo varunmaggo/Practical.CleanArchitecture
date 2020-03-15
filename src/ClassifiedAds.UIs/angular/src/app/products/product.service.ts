@@ -4,13 +4,13 @@ import { Observable, throwError } from "rxjs";
 import { catchError, tap, map } from "rxjs/operators";
 
 import { IProduct } from "./product";
-import { Constants } from "../constants";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root"
 })
 export class ProductService {
-  private productUrl = Constants.apiRoot + "products";
+  private productUrl = environment.ResourceServer.Endpoint + "products";
 
   constructor(private http: HttpClient) {}
 

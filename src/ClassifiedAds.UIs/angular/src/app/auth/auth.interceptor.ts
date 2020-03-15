@@ -6,11 +6,12 @@ import {
   HttpRequest,
   HttpErrorResponse
 } from "@angular/common/http";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
+
 import { AuthService } from "./auth.service";
-import { Constants } from "../constants";
-import { Router } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -20,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.url.startsWith(Constants.apiRoot)) {
+    if (req.url.startsWith(environment.ResourceServer.Endpoint)) {
       var accessToken = this._authService.getAccessToken();
       const headers = req.headers.set("Authorization", `Bearer ${accessToken}`);
       const authReq = req.clone({ headers });
