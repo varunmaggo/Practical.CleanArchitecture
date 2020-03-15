@@ -4,7 +4,6 @@ import { ModalModule } from "ngx-bootstrap";
 
 import { ProductListComponent } from "./product-list.component";
 import { ProductDetailComponent } from "./product-detail.component";
-import { ConvertToSpacesPipe } from "../shared/convert-to-spaces.pipe";
 import { ProductDetailGuard } from "./product-detail.guard";
 import { SharedModule } from "../shared/shared.module";
 import { AddProductComponent } from "./add-product/add-product.component";
@@ -29,7 +28,6 @@ import { EditProductComponent } from "./edit-product/edit-product.component";
   declarations: [
     ProductListComponent,
     ProductDetailComponent,
-    ConvertToSpacesPipe,
     AddProductComponent,
     DeleteProductComponent,
     EditProductComponent

@@ -8,12 +8,15 @@ import { ProductModule } from "./products/product.module";
 import { AuthModule } from "./auth/auth.module";
 import { LoggingModule } from "./logging/logging.module";
 import { GlobalErrorHandler } from "./shared/global-error-handler";
+import { SharedModule } from "./shared/shared.module";
+import { WelcomeComponent } from "./home/welcome.component";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, WelcomeComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
+    SharedModule,
     ProductModule,
     AppRoutingModule,
     AuthModule,
