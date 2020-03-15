@@ -1,8 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, VERSION } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 
 @Component({
-  templateUrl: './welcome.component.html'
+  templateUrl: "./welcome.component.html"
 })
 export class WelcomeComponent {
-  public pageTitle = 'Welcome';
+  public pageTitle = "Welcome ClassifiedAds Angular";
+  public version = VERSION.full;
+
+  constructor(private titleService: Title) {
+    this.titleService.setTitle("ClassifiedAds Angular - Welcome");
+  }
 }

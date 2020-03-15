@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 
 import { IProduct } from "./product";
 import { ProductService } from "./product.service";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   templateUrl: "./product-list.component.html",
@@ -28,7 +29,12 @@ export class ProductListComponent implements OnInit {
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("ClassifiedAds Angular - Product");
+  }
 
   onRatingClicked(message: string): void {
     this.pageTitle = "Product List: " + message;
