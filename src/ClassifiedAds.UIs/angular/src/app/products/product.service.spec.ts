@@ -6,7 +6,7 @@ import {
 } from "@angular/common/http/testing";
 import { ProductService } from "./product.service";
 import { IProduct } from "./product";
-import { Constants } from "../constants";
+import { environment } from "src/environments/environment";
 
 describe("ProductService Tests", () => {
   let productService: ProductService;
@@ -65,7 +65,7 @@ describe("ProductService Tests", () => {
     });
 
     let booksRequest: TestRequest = httpTestingController.expectOne(
-      Constants.apiRoot + "products"
+      environment.ResourceServer.Endpoint + "products"
     );
     expect(booksRequest.request.method).toEqual("GET");
 

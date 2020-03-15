@@ -5,7 +5,9 @@ import { UserManager, User, WebStorageStateStore } from "oidc-client";
 import { IUser } from "./user.model";
 import { environment } from "src/environments/environment";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class AuthService {
   private _userManager: UserManager;
   private _user: User;

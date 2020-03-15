@@ -9,7 +9,6 @@ import { AuthInitializer } from "./auth.initializer";
   declarations: [],
   imports: [CommonModule],
   providers: [
-    AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: APP_INITIALIZER,

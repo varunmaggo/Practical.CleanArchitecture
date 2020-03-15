@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   OpenIdConnect: {
-    Authority: "https://localhost:44367",
+    Authority: "http://host.docker.internal:9000",
     ClientId: "ClassifiedAds.Angular"
   },
   ResourceServer: {
-    Endpoint: "https://localhost:44312/api/"
+    Endpoint: "http://host.docker.internal:9002"
   },
   CurrentUrl: "http://localhost:4200/"
 };
