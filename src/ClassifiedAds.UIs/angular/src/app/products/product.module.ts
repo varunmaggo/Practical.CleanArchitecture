@@ -9,12 +9,17 @@ import { SharedModule } from "../shared/shared.module";
 import { AddProductComponent } from "./add-product/add-product.component";
 import { DeleteProductComponent } from "./delete-product/delete-product.component";
 import { EditProductComponent } from "./edit-product/edit-product.component";
+import { AddProductGuard } from "./add-product/add-product.guard";
 
 @NgModule({
   imports: [
     RouterModule.forChild([
       { path: "products", component: ProductListComponent },
-      { path: "products/add", component: AddProductComponent },
+      {
+        path: "products/add",
+        component: AddProductComponent,
+        canDeactivate: [AddProductGuard]
+      },
       { path: "products/edit/:id", component: EditProductComponent },
       {
         path: "products/:id",

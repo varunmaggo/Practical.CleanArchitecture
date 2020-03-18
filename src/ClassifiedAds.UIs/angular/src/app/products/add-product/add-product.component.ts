@@ -21,12 +21,16 @@ export class AddProductComponent implements OnInit {
   };
   postErrorMessage: string = "";
   postError = false;
+  isDirty = false;
 
   constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit(): void {}
 
   onBlur(field: NgModel) {
+    if (field.dirty) {
+      this.isDirty = true;
+    }
     console.log("in onBlur: ", field.valid);
   }
 
@@ -37,6 +41,7 @@ export class AddProductComponent implements OnInit {
       this.productService.addProduct(this.product).subscribe(
         result => {
           console.log("success: ", result);
+          this.isDirty = false;
           this.router.navigate(["/products", result.id]);
         },
         error => this.onHttpError(error)

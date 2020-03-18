@@ -18,14 +18,11 @@
             required
             #nameField="ngModel"
             (blur)="onBlur(nameField)"
-            [class.field-error]="form.submitted && nameField.invalid"
+            [class.is-invalid]="form.submitted && nameField.invalid"
           />
-          <div
-            [hidden]="!form.submitted || nameField.valid"
-            class="alert alert-danger"
-          >
+          <span class="invalid-feedback">
             Enter a name
-          </div>
+          </span>
         </div>
       </div>
       <div class="form-group row">
@@ -39,14 +36,11 @@
             required
             #codeField="ngModel"
             (blur)="onBlur(codeField)"
-            [class.field-error]="form.submitted && codeField.invalid"
+            [class.is-invalid]="form.submitted && codeField.invalid"
           />
-          <div
-            [hidden]="!form.submitted || codeField.valid"
-            class="alert alert-danger"
-          >
+          <span class="invalid-feedback">
             Enter a code
-          </div>
+          </span>
         </div>
       </div>
       <div class="form-group row">
@@ -62,14 +56,11 @@
             required
             #descriptionField="ngModel"
             (blur)="onBlur(descriptionField)"
-            [class.field-error]="form.submitted && descriptionField.invalid"
+            [class.is-invalid]="form.submitted && descriptionField.invalid"
           />
-          <div
-            [hidden]="!form.submitted || descriptionField.valid"
-            class="alert alert-danger"
-          >
+          <span class="invalid-feedback">
             Enter a description
-          </div>
+          </span>
         </div>
       </div>
       <div class="form-group row">
