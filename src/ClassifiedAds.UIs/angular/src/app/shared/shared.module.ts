@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 
 import { StarComponent } from "./star.component";
@@ -16,6 +16,7 @@ import { AppendCurrentDateTimePipe } from "./append-current-datetime.pipe";
     AppendCurrentDateTimePipe,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
   ]
 })

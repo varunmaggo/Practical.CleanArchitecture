@@ -10,6 +10,7 @@ import { AddProductComponent } from "./add-product/add-product.component";
 import { DeleteProductComponent } from "./delete-product/delete-product.component";
 import { EditProductComponent } from "./edit-product/edit-product.component";
 import { AddProductGuard } from "./add-product/add-product.guard";
+import { EditProductGuard } from "./edit-product/edit-product.guard";
 
 @NgModule({
   imports: [
@@ -20,11 +21,15 @@ import { AddProductGuard } from "./add-product/add-product.guard";
         component: AddProductComponent,
         canDeactivate: [AddProductGuard]
       },
-      { path: "products/edit/:id", component: EditProductComponent },
+      {
+        path: "products/edit/:id",
+        component: EditProductComponent,
+        canDeactivate: [EditProductGuard]
+      },
       {
         path: "products/:id",
-        canActivate: [ProductDetailGuard],
-        component: ProductDetailComponent
+        component: ProductDetailComponent,
+        canActivate: [ProductDetailGuard]
       }
     ]),
     ModalModule.forRoot(),
