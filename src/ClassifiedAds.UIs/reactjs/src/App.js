@@ -18,7 +18,7 @@ function App() {
         <Route path="/products/edit/:id" component={AddProduct} />
         <Route path="/products/:id" component={ViewProduct} />
         <Route path="/products" component={Products} />
-        <Redirect to="/" />
+        <Redirect to="/home" />
       </Switch>
     </div>
   );
