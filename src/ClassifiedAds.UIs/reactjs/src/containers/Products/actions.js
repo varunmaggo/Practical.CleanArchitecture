@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 
+/// PRODUCTS
 export const fetchProductsSuccess = products => {
   return {
     type: actionTypes.FETCH_PRODUCTS_SUCCESS,
@@ -25,3 +26,77 @@ export const fetchProducts = () => {
     type: actionTypes.FETCH_PRODUCTS
   };
 };
+/// PRODUCTS
+
+/// PRODUCT
+export const fetchProductSuccess = product => {
+  return {
+    type: actionTypes.FETCH_PRODUCT_SUCCESS,
+    product: product
+  };
+};
+
+export const fetchProductFail = error => {
+  return {
+    type: actionTypes.FETCH_PRODUCT_FAIL,
+    error: error
+  };
+};
+
+export const fetchProductStart = () => {
+  return {
+    type: actionTypes.FETCH_PRODUCT_START
+  };
+};
+
+export const fetchProduct = id => {
+  return {
+    type: actionTypes.FETCH_PRODUCT,
+    id: id
+  };
+};
+/// PRODUCT
+
+/// UPDATE PRODUCT
+export const updateProduct = product => {
+  return {
+    type: actionTypes.UPDATE_PRODUCT,
+    product: product
+  };
+};
+
+export const resetProduct = () => {
+  return {
+    type: actionTypes.RESET_PRODUCT
+  };
+};
+/// UPDATE PRODUCT
+
+/// SAVE PRODUCT
+export const saveProductSuccess = product => {
+  return {
+    type: actionTypes.SAVE_PRODUCT_SUCCESS,
+    product: product
+  };
+};
+
+export const saveProductFail = error => {
+  return {
+    type: actionTypes.SAVE_PRODUCT_FAIL,
+    error: error
+  };
+};
+
+export const saveProductStart = () => {
+  return {
+    type: actionTypes.SAVE_PRODUCT_START
+  };
+};
+
+export const saveProduct = product => {
+  return {
+    type: actionTypes.SAVE_PRODUCT,
+    product: product
+  };
+};
+/// SAVE PRODUCT

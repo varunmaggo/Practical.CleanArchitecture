@@ -10,7 +10,9 @@ const Star = props => {
       style={{ width: width }}
       title="rating"
       onClick={() =>
-        props.ratingClicked(`The rating ${props.rating} was clicked!`)
+        props.ratingClicked
+          ? props.ratingClicked(`The rating ${props.rating} was clicked!`)
+          : null
       }
     >
       <div style={{ width: "75px" }}>
