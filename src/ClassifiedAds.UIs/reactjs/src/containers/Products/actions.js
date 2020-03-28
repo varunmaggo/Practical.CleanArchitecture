@@ -100,3 +100,31 @@ export const saveProduct = product => {
   };
 };
 /// SAVE PRODUCT
+
+/// DELETE PRODUCT
+export const deleteProductSuccess = product => {
+  return {
+    type: actionTypes.DELETE_PRODUCT_SUCCESS
+  };
+};
+
+export const deleteProductFail = error => {
+  return {
+    type: actionTypes.DELETE_PRODUCT_FAIL,
+    error: error
+  };
+};
+
+export const deleteProductStart = () => {
+  return {
+    type: actionTypes.DELETE_PRODUCT_START
+  };
+};
+
+export const deleteProduct = product => {
+  return {
+    type: actionTypes.DELETE_PRODUCT,
+    product: product
+  };
+};
+/// DELETE PRODUCT

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
+import { Modal, Button } from "react-bootstrap";
 
 import logo from "../../logo.svg";
 import * as actions from "./actions";
@@ -10,6 +11,8 @@ class Products extends Component {
   state = {
     pageTitle: "Product List",
     showImage: false,
+    showDeleteModal: false,
+    deletingProduct: null,
     listFilter: ""
   };
 
@@ -31,6 +34,19 @@ class Products extends Component {
   onRatingClicked = event => {
     const pageTitle = "Product List: " + event;
     this.setState({ pageTitle: pageTitle });
+  };
+
+  deleteProduct = product => {
+    this.setState({ showDeleteModal: true, deletingProduct: product });
+  };
+
+  deleteCanceled = () => {
+    this.setState({ showDeleteModal: false, deletingProduct: null });
+  };
+
+  deleteConfirmed = () => {
+    this.props.deleteProduct(this.state.deletingProduct);
+    this.setState({ showDeleteModal: false, deletingProduct: null });
   };
 
   componentDidMount() {
@@ -73,10 +89,13 @@ class Products extends Component {
             Edit
           </NavLink>
           &nbsp;
-          <app-delete-product
-            product="product"
-            confirmed="onDeleteConfirmed($event)"
-          ></app-delete-product>
+          <button
+            type="button"
+            className="btn btn-primary btn-danger"
+            onClick={() => this.deleteProduct(product)}
+          >
+            Delete
+          </button>
         </td>
       </tr>
     ));
@@ -101,6 +120,26 @@ class Products extends Component {
         <tbody>{rows}</tbody>
       </table>
     ) : null;
+
+    const deleteModal = (
+      <Modal show={this.state.showDeleteModal} onHide={this.deleteCanceled}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete
+          <strong> {this.state.deletingProduct?.name}</strong>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={this.deleteCanceled}>
+            No
+          </Button>
+          <Button variant="primary" onClick={this.deleteConfirmed}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
 
     return (
       <div>
@@ -141,6 +180,7 @@ class Products extends Component {
             Error: {this.props.errorMessage}
           </div>
         ) : null}
+        {deleteModal}
       </div>
     );
   }
@@ -154,7 +194,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchProducts: () => dispatch(actions.fetchProducts())
+    fetchProducts: () => dispatch(actions.fetchProducts()),
+    deleteProduct: product => dispatch(actions.deleteProduct(product))
   };
 };
 

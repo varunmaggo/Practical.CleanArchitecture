@@ -48,8 +48,24 @@ export function* saveProductSaga(action) {
   }
 }
 
+export function* deleteProductSaga(action) {
+  yield put(actions.deleteProductStart());
+  try {
+    const response = yield axios.delete(
+      "https://localhost:44312/api/products/" + action.product.id,
+      action.product
+    );
+    yield put(actions.deleteProductSuccess(action.product));
+    yield put(actions.fetchProducts());
+  } catch (error) {
+    console.log(error);
+    yield put(actions.deleteProductFail(error));
+  }
+}
+
 export function* watchProduct() {
   yield takeEvery(actionTypes.FETCH_PRODUCTS, fetchProductsSaga);
   yield takeEvery(actionTypes.FETCH_PRODUCT, fetchProductSaga);
   yield takeEvery(actionTypes.SAVE_PRODUCT, saveProductSaga);
+  yield takeEvery(actionTypes.DELETE_PRODUCT, deleteProductSaga);
 }

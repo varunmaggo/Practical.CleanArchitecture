@@ -3,10 +3,50 @@ import { NavLink, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import * as actions from "../actions";
+import { checkValidity } from "../../../shared/utility";
 
 class AddProduct extends Component {
   state = {
     title: "Add Product",
+    controls: {
+      name: {
+        validation: {
+          required: true,
+          minLength: 3
+        },
+        error: {
+          required: false,
+          minLength: false
+        },
+        valid: false,
+        touched: false
+      },
+      code: {
+        validation: {
+          required: true,
+          maxLength: 10
+        },
+        error: {
+          required: false,
+          maxLength: false
+        },
+        valid: false,
+        touched: false
+      },
+      description: {
+        validation: {
+          required: true,
+          maxLength: 100
+        },
+        error: {
+          required: false,
+          maxLength: false
+        },
+        valid: false,
+        touched: false
+      }
+    },
+    valid: false,
     submitted: false,
     errorMessage: null
   };
@@ -25,13 +65,46 @@ class AddProduct extends Component {
       ...this.props.product,
       [event.target.name]: event.target.value
     };
+
+    this.checkFieldValidity(event.target.name, event.target.value);
+
     this.props.updateProduct(product);
+  };
+
+  checkFieldValidity = (name, value) => {
+    const control = this.state.controls[name];
+    const rules = control.validation;
+    const validationRs = checkValidity(value, rules);
+
+    this.setState(preState => {
+      return {
+        controls: {
+          ...preState.controls,
+          [name]: {
+            ...preState.controls[name],
+            error: validationRs,
+            valid: validationRs.isValid
+          }
+        }
+      };
+    });
+
+    return validationRs.isValid;
   };
 
   onSubmit = event => {
     event.preventDefault();
     this.setState({ submitted: true });
-    this.props.saveProduct(this.props.product);
+    let isValid = true;
+    for (let fieldName in this.state.controls) {
+      isValid =
+        this.checkFieldValidity(fieldName, this.props.product[fieldName]) &&
+        isValid;
+    }
+
+    if (isValid) {
+      this.props.saveProduct(this.props.product);
+    }
   };
 
   render() {
@@ -57,12 +130,23 @@ class AddProduct extends Component {
                 <input
                   id="name"
                   name="name"
-                  className="form-control"
+                  className={
+                    "form-control " +
+                    (this.state.submitted && !this.state.controls["name"].valid
+                      ? "is-invalid"
+                      : "")
+                  }
                   value={this.props.product?.name}
                   onChange={event => this.fieldChanged(event)}
-                  required
                 />
-                <span className="invalid-feedback">Enter a name</span>
+                <span className="invalid-feedback">
+                  {this.state.controls["name"].error.required ? (
+                    <span>Enter a name</span>
+                  ) : null}
+                  {this.state.controls["name"].error.minLength ? (
+                    <span>The name must be longer than 3 characters.</span>
+                  ) : null}
+                </span>
               </div>
             </div>
             <div className="form-group row">
@@ -73,12 +157,23 @@ class AddProduct extends Component {
                 <input
                   id="code"
                   name="code"
-                  className="form-control"
+                  className={
+                    "form-control " +
+                    (this.state.submitted && !this.state.controls["code"].valid
+                      ? "is-invalid"
+                      : "")
+                  }
                   value={this.props.product?.code}
                   onChange={event => this.fieldChanged(event)}
-                  required
                 />
-                <span className="invalid-feedback">Enter a code</span>
+                <span className="invalid-feedback">
+                  {this.state.controls["code"].error.required ? (
+                    <span>Enter a code</span>
+                  ) : null}
+                  {this.state.controls["code"].error.maxLength ? (
+                    <span>The code must be less than 10 characters.</span>
+                  ) : null}
+                </span>
               </div>
             </div>
             <div className="form-group row">
@@ -89,12 +184,24 @@ class AddProduct extends Component {
                 <input
                   id="description"
                   name="description"
-                  className="form-control"
+                  className={
+                    "form-control " +
+                    (this.state.submitted &&
+                    !this.state.controls["description"].valid
+                      ? "is-invalid"
+                      : "")
+                  }
                   value={this.props.product?.description}
                   onChange={event => this.fieldChanged(event)}
-                  required
                 />
-                <span className="invalid-feedback">Enter a description</span>
+                <span className="invalid-feedback">
+                  {this.state.controls["description"].error.required ? (
+                    <span>Enter a description</span>
+                  ) : null}
+                  {this.state.controls["description"].error.maxLength ? (
+                    <span>The code must be less than 100 characters.</span>
+                  ) : null}
+                </span>
               </div>
             </div>
             <div className="form-group row">

@@ -10,6 +10,7 @@ const initialState = {
   },
   loading: false,
   saved: false,
+  deleted: false,
   error: null
 };
 
@@ -88,6 +89,24 @@ const reducer = (state = initialState, action) => {
       return saveProductSuccess(state, action);
     case actionTypes.SAVE_PRODUCT_FAIL:
       return saveProductFail(state, action);
+    case actionTypes.DELETE_PRODUCT_START:
+      return updateObject(state, {
+        product: action.product,
+        loading: true,
+        deleted: false
+      });
+    case actionTypes.DELETE_PRODUCT_SUCCESS:
+      return updateObject(state, {
+        product: action.product,
+        loading: false,
+        deleted: true
+      });
+    case actionTypes.DELETE_PRODUCT_FAIL:
+      return updateObject(state, {
+        error: action.error,
+        loading: false,
+        deleted: false
+      });
     default:
       return state;
   }
