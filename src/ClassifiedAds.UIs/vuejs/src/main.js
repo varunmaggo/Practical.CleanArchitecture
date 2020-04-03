@@ -7,6 +7,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+import AuthService from "./auth/authService";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -27,8 +28,36 @@ Vue.filter("uppercase", function (value) {
 Vue.use(Vuelidate)
 Vue.use(BootstrapVue)
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+const authService = new AuthService();
+
+axios.interceptors.request.use(config => {
+  if (config.url.startsWith("https://localhost:44312/api/")) {
+    config.headers["Authorization"] = "Bearer " + authService.getAccessToken();
+  }
+  return config;
+});
+
+axios.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (401 === error.response.status) {
+      authService.login(window.location.href);
+    } else {
+      return Promise.reject(error);
+    }
+  }
+);
+
+authService.loadUser().then(user => {
+  store.dispatch("tryAutoLogin", authService);
+  if (authService.isAuthenticated()) {
+
+  }
+  new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount('#app')
+});

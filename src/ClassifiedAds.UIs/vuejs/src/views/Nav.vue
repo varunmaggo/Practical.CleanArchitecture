@@ -21,11 +21,20 @@
 <script>
 export default {
   data() {
-    return { pageTitle: "ClassifiedAds.Vue", isAuthenticated: false };
+    return { pageTitle: "ClassifiedAds.Vue" };
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.authService.isAuthenticated();
+    }
   },
   methods: {
-    login() {},
-    logout() {}
+    login() {
+      this.$store.state.authService.login();
+    },
+    logout() {
+      this.$store.state.authService.logout();
+    }
   }
 };
 </script>
