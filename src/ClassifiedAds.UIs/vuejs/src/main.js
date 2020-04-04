@@ -31,25 +31,42 @@ Vue.use(BootstrapVue)
 
 const authService = new AuthService();
 
-axios.interceptors.request.use(config => {
-  if (config.url.startsWith(env.ResourceServer.Endpoint)) {
-    config.headers["Authorization"] = "Bearer " + authService.getAccessToken();
-  }
-  return config;
-});
 
-axios.interceptors.response.use(
-  response => {
-    return response;
-  },
-  error => {
-    if (401 === error.response.status) {
-      authService.login(window.location.href);
-    } else {
-      return Promise.reject(error);
+const interceptors = {
+  requests: [
+    {
+      f1: config => {
+        if (config.baseURL?.startsWith(env.ResourceServer.Endpoint) || config.url?.startsWith(env.ResourceServer.Endpoint)) {
+          config.headers["Authorization"] = "Bearer " + authService.getAccessToken();
+        }
+        return config;
+      }
+    }],
+  responses: [
+    {
+      f1: response => {
+        return response;
+      },
+      f2: error => {
+        if (401 === error.response.status) {
+          authService.login(window.location.href);
+        } else {
+          return Promise.reject(error);
+        }
+      }
     }
-  }
-);
+  ]
+}
+
+axios.defaultInterceptors = interceptors;
+
+axios.defaultInterceptors.requests.forEach(interceptor => {
+  axios.interceptors.request.use(interceptor.f1, interceptor.f2);
+})
+
+axios.defaultInterceptors.responses.forEach(interceptor => {
+  axios.interceptors.response.use(interceptor.f1, interceptor.f2);
+})
 
 authService.loadUser().then(user => {
   store.dispatch("tryAutoLogin", authService);

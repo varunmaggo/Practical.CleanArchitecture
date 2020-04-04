@@ -80,11 +80,10 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "./axios";
 
 import logo from "../../assets/logo.png";
 import Star from "../../components/Star.vue";
-import env from "../../../environments";
 
 export default {
   data() {
@@ -121,7 +120,7 @@ export default {
       this.pageTitle = "Product List: " + event;
     },
     loadProducts() {
-      axios.get(env.ResourceServer.Endpoint + "products").then(rs => {
+      axios.get("").then(rs => {
         this.products = rs.data;
       });
     },
@@ -130,13 +129,9 @@ export default {
       this.$bvModal.show("modal-delete");
     },
     deleteConfirmed() {
-      axios
-        .delete(
-          env.ResourceServer.Endpoint + "products/" + this.selectedProduct.id
-        )
-        .then(rs => {
-          this.loadProducts();
-        });
+      axios.delete(this.selectedProduct.id).then(rs => {
+        this.loadProducts();
+      });
     }
   },
   components: {

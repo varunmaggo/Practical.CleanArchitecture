@@ -76,9 +76,8 @@
 
 <script>
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
-import axios from "axios";
 
-import env from "../../../environments";
+import axios from "./axios";
 
 export default {
   data() {
@@ -119,11 +118,8 @@ export default {
       }
 
       const promise = this.id
-        ? axios.put(
-            env.ResourceServer.Endpoint + "products/" + this.id,
-            this.product
-          )
-        : axios.post(env.ResourceServer.Endpoint + "products", this.product);
+        ? axios.put(this.id, this.product)
+        : axios.post("", this.product);
 
       promise.then(rs => {
         const id = this.id ? this.id : rs.data.id;
@@ -134,7 +130,7 @@ export default {
   created() {
     const id = this.$route.params.id;
     if (id) {
-      axios.get(env.ResourceServer.Endpoint + "products/" + id).then(rs => {
+      axios.get(id).then(rs => {
         this.product = rs.data;
       });
     }

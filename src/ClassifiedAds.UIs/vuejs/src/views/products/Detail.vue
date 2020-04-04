@@ -51,10 +51,9 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "./axios";
 
 import Star from "../../components/Star.vue";
-import env from "../../../environments";
 
 export default {
   data() {
@@ -74,7 +73,7 @@ export default {
   },
   created() {
     const id = this.$route.params.id;
-    axios.get(env.ResourceServer.Endpoint + "products/" + id).then(rs => {
+    axios.get(id).then(rs => {
       this.product = rs.data;
     });
   }
