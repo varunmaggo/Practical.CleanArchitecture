@@ -84,6 +84,7 @@ import axios from "axios";
 
 import logo from "../../assets/logo.png";
 import Star from "../../components/Star.vue";
+import env from "../../../environments";
 
 export default {
   data() {
@@ -120,7 +121,7 @@ export default {
       this.pageTitle = "Product List: " + event;
     },
     loadProducts() {
-      axios.get("https://localhost:44312/api/products").then(rs => {
+      axios.get(env.ResourceServer.Endpoint + "products").then(rs => {
         this.products = rs.data;
       });
     },
@@ -131,7 +132,7 @@ export default {
     deleteConfirmed() {
       axios
         .delete(
-          "https://localhost:44312/api/products/" + this.selectedProduct.id
+          env.ResourceServer.Endpoint + "products/" + this.selectedProduct.id
         )
         .then(rs => {
           this.loadProducts();

@@ -8,6 +8,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import AuthService from "./auth/authService";
+import env from "../environments"
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -22,7 +23,7 @@ Vue.filter("appendCurrentDateTime", function (value) {
   return value + " " + new Date();
 });
 Vue.filter("uppercase", function (value) {
-  return value.toUpperCase();
+  return value?.toUpperCase();
 });
 
 Vue.use(Vuelidate)
@@ -31,7 +32,7 @@ Vue.use(BootstrapVue)
 const authService = new AuthService();
 
 axios.interceptors.request.use(config => {
-  if (config.url.startsWith("https://localhost:44312/api/")) {
+  if (config.url.startsWith(env.ResourceServer.Endpoint)) {
     config.headers["Authorization"] = "Bearer " + authService.getAccessToken();
   }
   return config;

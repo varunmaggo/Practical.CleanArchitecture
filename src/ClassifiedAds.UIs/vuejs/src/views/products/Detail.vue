@@ -54,6 +54,7 @@
 import axios from "axios";
 
 import Star from "../../components/Star.vue";
+import env from "../../../environments";
 
 export default {
   data() {
@@ -73,7 +74,7 @@ export default {
   },
   created() {
     const id = this.$route.params.id;
-    axios.get("https://localhost:44312/api/products/" + id).then(rs => {
+    axios.get(env.ResourceServer.Endpoint + "products/" + id).then(rs => {
       this.product = rs.data;
     });
   }
