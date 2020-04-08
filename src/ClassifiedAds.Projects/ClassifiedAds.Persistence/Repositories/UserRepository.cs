@@ -13,9 +13,35 @@ namespace ClassifiedAds.Persistence.Repositories
         {
         }
 
-        public IQueryable<User> GetAllIncludeTokens()
+        public IQueryable<User> Get(QueryOptions queryOptions)
         {
-            return GetAll().Include(x => x.Tokens);
+            var query = GetAll();
+            if (queryOptions.IncludeTokens)
+            {
+                query = query.Include(x => x.Tokens);
+            }
+
+            if (queryOptions.IncludeClaims)
+            {
+                query = query.Include(x => x.Claims);
+            }
+
+            if (queryOptions.IncludeUserRoles)
+            {
+                query = query.Include(x => x.UserRoles);
+            }
+
+            if (queryOptions.IncludeRoles)
+            {
+                query = query.Include("UserRoles.Role");
+            }
+
+            if (queryOptions.AsNoTracking)
+            {
+                query = query = query.AsNoTracking();
+            }
+
+            return query;
         }
     }
 }
