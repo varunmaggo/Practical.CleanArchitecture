@@ -27,6 +27,11 @@ namespace ClassifiedAds.Persistence.Repositories
                 query = query.Include(x => x.UserRoles);
             }
 
+            if (queryOptions.IncludeUsers)
+            {
+                query = query.Include("UserRoles.User");
+            }
+
             if (queryOptions.AsNoTracking)
             {
                 query = query = query.AsNoTracking();

@@ -8,6 +8,7 @@ namespace ClassifiedAds.Domain.Repositories
     {
         public bool IncludeClaims { get; set; }
         public bool IncludeUserRoles { get; set; }
+        public bool IncludeUsers { get; set; }
         public bool AsNoTracking { get; set; }
     }
 
