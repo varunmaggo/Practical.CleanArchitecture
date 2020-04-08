@@ -25,7 +25,7 @@ namespace ClassifiedAds.Application.Queries.Users
 
         public List<User> Handle(GetUsersQuery query)
         {
-            var db = _userRepository.Get(new QueryOptions
+            var db = _userRepository.Get(new UserQueryOptions
             {
                 IncludeClaims = query.IncludeClaims,
                 IncludeUserRoles = query.IncludeUserRoles,
